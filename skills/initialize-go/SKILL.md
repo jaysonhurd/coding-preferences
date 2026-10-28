@@ -28,6 +28,23 @@ https://go.dev/doc/modules/layout
 - Apply SOLID principles pragmatically: use small, focused interfaces and explicit
   dependency injection so dependencies are easy to mock in unit tests. Avoid
   unnecessary abstractions.
+- Unless otherwise specified, always add json tags to struct items.
+
+## Go errors
+- Use slog
+- Make any error an actual error variable top of the package in vars() following the example format `ErrBadRequest` i.e.
+with Err as the prefix.  
+- Using slog, make fields this pattern:
+```go
+logger.Error("Collection failed",
+    slog.Any("error", err),
+    slog.String("dealer_id", dealerID),
+    slog.Int("attempt", attempt),
+)
+```
+- Do not use `Errorf` or bulk messages built with variables like %s etc since that makes logs hard to 
+read at Observability platforms.
+
 
 ## Planned resources
 
