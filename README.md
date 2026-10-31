@@ -4,6 +4,47 @@ Personal Codex instructions and reusable project templates. Keep general working
 preferences in the root `AGENTS.md` and project starting points under `templates/`.
 Reusable skill skeletons live under `skills/`.
 
+## License
+
+Original repository content is licensed under the [BSD Zero Clause license
+(0BSD)](LICENSE). You may use, modify, and redistribute it, including commercially,
+without an attribution requirement.
+
+The copied [Effective Go article](skills/initialize-go/EFFECTIVE_GO.md#source-license)
+retains the Go Authors' separate license and notices. The repository's 0BSD
+license does not replace those terms.
+
+## Repository checks and public security
+
+Run the same checks as CI from the repository root with Python 3 and Bash:
+
+```bash
+python3 -m unittest discover -s scripts -p 'test_*.py'
+python3 scripts/check_repository.py
+```
+
+The checker validates skill names and required metadata, local Markdown links
+and anchors, and shell-script syntax. It uses the standard library and requires
+no downloaded packages. External URLs are not checked. It does not replace a full
+YAML parser, shell linter, or behavioral testing of skills and installer scripts.
+
+The `Repository validation` GitHub Actions check runs for pull requests to `main`
+and pushes to `main`. It must pass before merging. Pull requests are restricted
+to collaborators; `main` also requires resolved conversations and linear history,
+with force pushes and deletion disabled, including for administrators. A solo
+maintainer can merge their own PR without another person's approval.
+
+Secret scanning and push protection are enabled in GitHub settings. Review
+security alerts when changing historical content or adding credentials to local
+tooling; never commit secrets. Push protection detects supported secret patterns
+and is not a guarantee that all sensitive content will be caught.
+
+Actions are limited to the explicitly allowed checkout commit used by the
+workflow, with full commit SHA pinning required. Workflow tokens default to
+read-only and cannot approve PRs. When upgrading checkout or adding another
+action, review its source and update both the repository's allowed Actions policy
+and the workflow's pinned SHA before merging.
+
 ## Directory structure
 
 ```text
