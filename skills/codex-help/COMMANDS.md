@@ -6,6 +6,8 @@ omit it to use the current project. Help lists this catalog without executing it
 
 ```text
 $codex-help
+codex update all
+codex update all /path/to/project
 $codex-help help go logging
 $codex-help review go solid ./internal
 $codex-help apply go logging ./internal/service
@@ -17,6 +19,17 @@ $codex-help verify repository
 $codex-help create pr
 $codex-help merge pr
 ```
+
+## Apply all preferences
+
+| Request | Behavior and source |
+| --- | --- |
+| `codex update all TARGET` | Apply all applicable coding-preferences guidance to the target project using [Update all preferences](UPDATE_ALL.md), then run relevant checks. Includes Go preferences, project instructions, repository validation, and existing Spec Kit documentation and principles where applicable. Report applied, unchanged, skipped, and blocked items. |
+
+`$codex-help update all TARGET` is the explicit skill invocation. Omit `TARGET`
+to use the current project. This updates the project from the available source
+copy; it does not fetch or reinstall coding-preferences, initialize or upgrade
+Spec Kit, refresh Effective Go, publish changes, or configure remote settings.
 
 ## Go preferences à la carte
 
