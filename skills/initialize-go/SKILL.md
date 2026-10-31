@@ -6,6 +6,41 @@ description: Scaffold for a reusable skill to initialize Go projects; not yet im
 ## General
 - Do not perform these refreshes on each codex request unless specifically asked to "refresh codex please".
 
+### Effective Go
+
+- Follow the guidance in [EFFECTIVE_GO.md](EFFECTIVE_GO.md), the local copy of
+  the complete Effective Go article. Consult the relevant sections when
+  initializing projects, designing Go code, or reviewing Go conventions.
+- Refresh the local copy from its recorded source only when explicitly asked to
+  "refresh codex please". Preserve all article sections, examples, links, and
+  license notices, and update the retrieval date. Exclude site navigation and
+  do not copy linked documents or recursively crawl documentation sites.
+- Effective Go is not actively updated. Check outdated guidance against current
+  official Go documentation and the project's Go version, distinguishing
+  historical examples from current recommendations. Preserve explicit project
+  preferences and document conflicts and intentional overrides rather than
+  silently changing those preferences.
+
+### SOLID principles
+
+Generally adhere to all five SOLID principles when designing and changing code.
+Apply them pragmatically using idiomatic Go, small interfaces, composition, and
+explicit dependency injection. Favor simple solutions; introduce abstractions
+when they serve a concrete need.
+
+- **Single Responsibility:** Give each package, type, and function a focused
+  responsibility and a cohesive reason to change.
+- **Open/Closed:** Design stable behavior to support extension through composition
+  or focused interfaces without repeatedly modifying existing core logic.
+- **Liskov Substitution:** Implementations of an interface must honor its
+  behavioral contract so callers can substitute them without breaking expected
+  behavior, including error handling and side effects.
+- **Interface Segregation:** Prefer small interfaces shaped by their consumers;
+  do not require callers or implementations to depend on methods they do not use.
+- **Dependency Inversion:** Keep high-level policy independent of concrete
+  infrastructure details. Inject dependencies explicitly through appropriate
+  abstractions, usually interfaces defined by the consuming package.
+
 ## Initialize Go
 
 - Depending on the project, please use this guide:
@@ -37,6 +72,7 @@ https://go.dev/doc/modules/layout
 - Always create unit tests where possible using Go's built in testing suite.
 - Aim for 95% coverage as a minimum where possible.  Alert the developer where this is not possible.
 - Make sure all error cases are tested as well.
+- For http tests, prefer to use a `ClientDoer` for client tests vs. the httptest library. The `ClientDoer` should include at least the `.Do()` method.
 
 ## Go errors
 - Make any error an actual error variable top of the package in vars() following the example format `ErrBadRequest` i.e.
