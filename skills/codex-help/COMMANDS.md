@@ -11,6 +11,9 @@ $codex-help review go solid ./internal
 $codex-help apply go logging ./internal/service
 $codex-help apply go style and go docs ./internal/service
 $codex-help verify go
+$codex-help apply repository validation
+$codex-help review repository validation
+$codex-help verify repository
 ```
 
 ## Go preferences à la carte
@@ -39,6 +42,9 @@ These commands use its existing guidance without running full initialization.
 
 | Request | Behavior and source |
 | --- | --- |
+| `apply repository validation TARGET` | Use [repository-validation](../repository-validation/SKILL.md) to create or extend applicable skill, Markdown, shell, and native-language checks with matching CI and README instructions. Local setup does not change remote settings; include an explicit request for GitHub enforcement to configure and verify required checks, reviewed Actions, secret scanning, and push protection. |
+| `review repository validation TARGET` | Review local checks, CI, and accessible remote settings against [validation requirements](../../AGENTS.md#repository-validation-requirements), reporting gaps without edits or setup. |
+| `verify repository TARGET` | Run the target's documented existing checks. In coding-preferences, run `python3 -m unittest discover -s scripts -p 'test_*.py'` and `python3 scripts/check_repository.py`. Report failures or missing commands; do not add tooling, repair files, or change remote settings. |
 | `apply project instructions TARGET` | Adapt [templates/go-project/AGENTS.md](../../templates/go-project/AGENTS.md) to the target Go project. Fill placeholders from inspected project facts, merge existing instructions, and flag facts that cannot be determined. Do not create a module or application. |
 | `review project instructions TARGET` | Compare project instructions with that template and [personal defaults](../../AGENTS.md), reporting missing or conflicting guidance without editing. |
 | `verify go TARGET` | From the target Go module root, run `go build ./...`, `go test ./...`, and `go vet ./...` as described in the template. Respect documented build tags and prerequisites. Report failures and missing prerequisites; do not rewrite code or install tools as part of verification. Ask which module to use if a multi-module target is ambiguous. |

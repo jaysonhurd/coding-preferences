@@ -60,6 +60,8 @@ skills/
     EFFECTIVE_GO.md              Complete local Effective Go article
     assets/
       templates/                Reserved for generated project templates
+  repository-validation/
+    SKILL.md                    Set up or review local checks and matching CI
   spec-kit/
     SKILL.md                    Initialize and document GitHub Spec Kit
     assets/                     Constitution principles and README section
@@ -160,6 +162,9 @@ $codex-help apply go gitignore
 $codex-help apply go http-tests ./internal/client
 $codex-help apply project instructions /path/to/project
 $codex-help verify go
+$codex-help apply repository validation
+$codex-help review repository validation
+$codex-help verify repository
 ```
 
 Available Go topics include `style`, `solid`, `effective`, `docs`, `gitignore`,
@@ -169,6 +174,31 @@ initialization or refresh reference material. JSON preferences are checked again
 the supported Go toolchain, and new instrumentation dependencies are explained.
 `verify go` runs build, tests, and vet from the target module root and reports
 results without making code fixes.
+
+Repository validation is a reusable preference in
+[AGENTS.md](AGENTS.md#repository-validation-requirements), the Go project template,
+and the Go and Spec Kit setup skills. The
+[repository-validation skill](skills/repository-validation/SKILL.md) creates or
+extends checks for the target's actual content: skill metadata, local Markdown
+links and anchors, shell syntax, and native language checks such as Go formatting,
+build, tests, and vet. It reuses the target's tooling where available and documents
+the same local commands used by CI.
+
+`apply repository validation` creates local scripts, CI configuration, and usage
+instructions. `review repository validation` reports gaps without edits;
+`verify repository` runs existing documented checks. To also configure remote
+enforcement, include that scope explicitly, for example:
+
+```text
+$codex-help apply repository validation and configure GitHub enforcement for this repository
+```
+
+Remote setup verifies passing required check names and providers, branch
+protections, secret scanning, push protection, and allowed SHA-pinned Actions
+where supported. It preserves existing protections and license choices and
+reports authentication, permission, or plan limits. Instructions express the
+policy; scripts, CI, and verified GitHub settings provide the corresponding
+enforcement. Applying an unrelated preference does not trigger validation setup.
 
 For an existing Spec Kit project, documentation and principles can be updated
 independently:
@@ -193,7 +223,8 @@ Add an entry to [COMMANDS.md](skills/codex-help/COMMANDS.md) with its request,
 expected outcome, and source skill, template, or script. Keep the detailed rules
 in that source. The help list reads the catalog each time, so new entries do not
 need a second manually maintained help table. Update the help skill's routing
-when adding a new action form beyond `help`, `apply`, `review`, or `verify go`.
+when adding a new action form beyond `help`, `apply`, `review`, `verify go`, or
+`verify repository`.
 
 ## Use the Go project template
 

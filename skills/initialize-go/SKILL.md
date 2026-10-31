@@ -74,6 +74,25 @@ https://go.dev/doc/modules/layout
 - Make sure all error cases are tested as well.
 - For http tests, prefer to use a `ClientDoer` for client tests vs. the httptest library. The `ClientDoer` should include at least the `.Do()` method.
 
+## Repository validation and CI
+
+- During initialization or an explicit validation-setup request, follow
+  [repository-validation](../repository-validation/SKILL.md) to create or extend
+  repeatable local checks and matching CI. Apply only validation work when that
+  is the requested scope; this does not complete the unfinished Go scaffolder.
+- Use the project's supported Go version and build tags. Check formatting without
+  silently fixing it in CI, and run `go build ./...`, `go test ./...`, and
+  `go vet ./...` from the applicable module roots. Adapt to documented workspace
+  conventions rather than inventing a module or new integration requirements.
+- Include skill metadata, local Markdown links and anchors, and shell syntax
+  checks where that content exists. Document commands, prerequisites, and limits
+  in the README, and test failure cases for new validation scripts.
+- Use stable required check names, pull-request/default-branch CI, read-only
+  permissions, timeouts, reviewed SHA-pinned Actions, and checkout without
+  persisted credentials. Configure and verify required checks and public-repo
+  security settings only when remote setup is in scope; preserve existing
+  protections and report unavailable features or permissions.
+
 ## Go errors
 - Make any error an actual error variable top of the package in vars() following the example format `ErrBadRequest` i.e.
 with Err as the prefix.  Add a comment section to each top level public variable and public methods and functions for good measure.  Make reasonable attempt to add 1-2 sentence descriptions.

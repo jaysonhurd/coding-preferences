@@ -47,6 +47,26 @@ Do not assume an example entry point or undocumented service exists.
 - Additional checks: [TODO: Document project-specific integration tests, build tags,
   race checks, or CI requirements.]
 
+## Repository validation and CI
+
+- During initialization or an explicit validation-setup request, create or extend
+  local checks and matching CI for formatting, build, tests, and vet using this
+  project's supported Go version and module boundaries. Include skill metadata,
+  local Markdown links and anchors, and shell syntax when applicable.
+- Keep local and CI commands consistent. Document prerequisites and check limits
+  in the README, and test meaningful failure cases for new validation scripts.
+- Run CI on PRs to and pushes to the actual default branch. Use stable check
+  names, read-only tokens, timeouts, reviewed Actions pinned to full commit SHAs,
+  and checkout without persisted credentials. Ignore IDE folders under `.github`.
+- When remote setup is authorized, require successful checks from the expected
+  provider and an up-to-date branch without weakening existing protections.
+  For public GitHub repositories, enable available secret scanning and push
+  protection, align allowed Actions with workflow pins, and disable workflow PR
+  approvals. Verify actual settings and report unavailable features or access.
+- Local file changes alone do not authorize publishing or remote configuration.
+  Preserve license choices and third-party notices. Routine coding requests
+  should run relevant checks without triggering unrelated repository setup.
+
 ## Go conventions
 
 - Write idiomatic Go following the guidance in Effective Go.

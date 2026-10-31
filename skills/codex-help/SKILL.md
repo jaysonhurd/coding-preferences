@@ -1,6 +1,6 @@
 ---
 name: codex-help
-description: List or explain personal coding-preferences commands when asked for codex help, and apply or review explicitly selected Go preferences, project instructions, or Spec Kit documentation. Use for this personal command catalog, not general Codex troubleshooting.
+description: List or explain personal coding-preferences commands when asked for codex help, and apply or review selected Go preferences, repository validation, project instructions, or Spec Kit documentation. Use for this personal command catalog, not general Codex troubleshooting.
 ---
 
 # Personal command catalog
@@ -25,6 +25,15 @@ user names another target. Read the target's instructions before changing it.
 - `$codex-help review COMMAND [TARGET]`: inspect the selected concern and report
   findings with file locations; do not edit files or install tools.
 - `$codex-help verify go [TARGET]`: run the catalog's Go checks and report results.
+- `$codex-help apply repository validation [TARGET]`: follow the
+  [repository-validation skill](../repository-validation/SKILL.md) to create or
+  extend local checks and matching CI. Configure remote enforcement only when
+  the user also requests remote setup.
+- `$codex-help review repository validation [TARGET]`: use that skill to inspect
+  local/CI coverage and accessible remote settings without making changes.
+- `$codex-help verify repository [TARGET]`: run the target's documented existing
+  repository checks and report results; do not create checks, install missing
+  tools, change remote settings, or repair failures as part of verification.
 - Recognize the catalog's existing `build spec-kit` and `refresh codex please`
   requests as their explicitly documented workflows. They are separate actions;
   applying another preference does not trigger them.
