@@ -100,6 +100,18 @@ the project requests that workflow.
 
 ## Verify and report
 
+- During initial setup, create or extend repeatable validation for generated
+  skill metadata, local documentation links and anchors, and helper-shell syntax
+  following [repository-validation](../repository-validation/SKILL.md). Integrate
+  with existing CI and document the same local commands; include the project's
+  native checks where applicable. Preserve upstream-managed files and extend
+  surrounding tooling rather than rewriting generated helpers. A documentation-
+  only update should maintain relevant checks without triggering full CI setup.
+- Record these validation expectations in the constitution and README using the
+  bundled principles. Remote required checks and public-repository security
+  settings need task scope that includes remote setup; report that distinction
+  and any missing capabilities rather than claiming files enforce remote policy.
+
 - Run `specify check` from the target root and inspect the generated diff.
 - Confirm the constitution, core templates, helper scripts, and selected agent
   skills exist and are nonempty. Check that the README's commands match the
