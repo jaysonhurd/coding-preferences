@@ -55,6 +55,7 @@ skills/
   codex-help/
     SKILL.md                    Personal command help and selected-action routing
     COMMANDS.md                 Command catalog and links to source guidance
+    PULL_REQUESTS.md             Branch, commit, push, PR, and merge workflows
   initialize-go/
     SKILL.md                    Go initialization skill skeleton (not implemented)
     EFFECTIVE_GO.md              Complete local Effective Go article
@@ -217,6 +218,29 @@ personal preferences. The `initialize-go` skill remains a preference guide with
 unfinished full-scaffolding work; its à-la-carte commands do not imply that a
 complete Go project generator exists.
 
+### Publish changes through a pull request
+
+From the target repository, use either chat command:
+
+```text
+$codex-help create pr
+$codex-help merge pr
+```
+
+Both commands create a branch, stage the current task's changes with `git add`,
+commit, push, and open a GitHub pull request. The PR description is a Markdown
+document containing a short summary and detailed changes, validation results,
+and risks. `create pr` leaves it open and does not enable auto-merge. `merge pr`
+also merges after validation and required checks, reviews, and protections pass;
+it stops and reports blockers if they cannot be satisfied.
+
+These workflows require Git, authenticated GitHub access (for example, the `gh`
+CLI), and push/PR permissions; merging also requires merge permission. An optional
+repository path selects another target, for example
+`$codex-help create pr /path/to/project`. See
+[Pull-request workflows](skills/codex-help/PULL_REQUESTS.md) for scope, retry,
+and merge rules. Adding these commands or asking for help does not execute them.
+
 ### Add a personal command
 
 Add an entry to [COMMANDS.md](skills/codex-help/COMMANDS.md) with its request,
@@ -224,7 +248,7 @@ expected outcome, and source skill, template, or script. Keep the detailed rules
 in that source. The help list reads the catalog each time, so new entries do not
 need a second manually maintained help table. Update the help skill's routing
 when adding a new action form beyond `help`, `apply`, `review`, `verify go`, or
-`verify repository`.
+`verify repository`, `create pr`, or `merge pr`.
 
 ## Use the Go project template
 

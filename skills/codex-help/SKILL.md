@@ -1,6 +1,6 @@
 ---
 name: codex-help
-description: List or explain personal coding-preferences commands when asked for codex help, and apply or review selected Go preferences, repository validation, project instructions, or Spec Kit documentation. Use for this personal command catalog, not general Codex troubleshooting.
+description: List or explain personal coding-preferences commands when asked for codex help, and apply or review selected Go preferences, repository validation, project instructions, Spec Kit documentation, or GitHub pull-request workflows. Use for this personal command catalog, not general Codex troubleshooting.
 ---
 
 # Personal command catalog
@@ -34,6 +34,11 @@ user names another target. Read the target's instructions before changing it.
 - `$codex-help verify repository [TARGET]`: run the target's documented existing
   repository checks and report results; do not create checks, install missing
   tools, change remote settings, or repair failures as part of verification.
+- `$codex-help create pr [TARGET]`: follow [Pull-request workflows](PULL_REQUESTS.md)
+  to create a branch, stage and commit scoped changes, push, and open a PR with
+  a Markdown summary and detailed description. Leave it open; never merge.
+- `$codex-help merge pr [TARGET]`: follow the same workflow, then merge only
+  after validation and required GitHub checks and reviews pass.
 - Recognize the catalog's existing `build spec-kit` and `refresh codex please`
   requests as their explicitly documented workflows. They are separate actions;
   applying another preference does not trigger them.
