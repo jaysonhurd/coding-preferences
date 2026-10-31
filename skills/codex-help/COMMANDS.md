@@ -14,6 +14,8 @@ $codex-help verify go
 $codex-help apply repository validation
 $codex-help review repository validation
 $codex-help verify repository
+$codex-help create pr
+$codex-help merge pr
 ```
 
 ## Go preferences à la carte
@@ -49,6 +51,21 @@ These commands use its existing guidance without running full initialization.
 | `review project instructions TARGET` | Compare project instructions with that template and [personal defaults](../../AGENTS.md), reporting missing or conflicting guidance without editing. |
 | `verify go TARGET` | From the target Go module root, run `go build ./...`, `go test ./...`, and `go vet ./...` as described in the template. Respect documented build tags and prerequisites. Report failures and missing prerequisites; do not rewrite code or install tools as part of verification. Ask which module to use if a multi-module target is ambiguous. |
 | `refresh codex please` | Explicitly refresh the local Effective Go copy using **General → Effective Go** in [initialize-go](../initialize-go/SKILL.md). Preserve the article, examples, links, license, and retrieval date. This does not reinstall personal preferences or upgrade Spec Kit. |
+
+## GitHub pull requests
+
+Read [Pull-request workflows](PULL_REQUESTS.md) for prerequisites, change scope,
+Markdown content, and merge requirements. Invoking a command authorizes its
+listed Git and GitHub actions for the selected changes. Help requests and requests
+to add or edit these commands do not authorize executing them.
+
+| Request | Behavior and source |
+| --- | --- |
+| `create pr TARGET` | Create a branch, use `git add` for scoped changes, commit, push the branch, and open a GitHub PR with a Markdown summary, implementation details, validation, and risks. Leave the PR open without enabling auto-merge. Follow [Pull-request workflows](PULL_REQUESTS.md). |
+| `merge pr TARGET` | Perform the same branch, stage, commit, push, and documented PR workflow, then merge the resulting PR after validation, required checks, reviews, and other repository protections are satisfied. Never bypass protections. Follow [Pull-request workflows](PULL_REQUESTS.md). |
+
+`TARGET` is a repository path for these two commands. The current task determines
+which changes belong in the PR; unrelated working-tree changes stay untouched.
 
 ## Spec Kit
 
