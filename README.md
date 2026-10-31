@@ -11,8 +11,12 @@ README.md                       Usage and maintenance instructions
 install.sh                      Install or refresh a local .codex directory
 AGENTS.md                       Personal defaults for Codex
 skills/
+  codex-help/
+    SKILL.md                    Personal command help and selected-action routing
+    COMMANDS.md                 Command catalog and links to source guidance
   initialize-go/
     SKILL.md                    Go initialization skill skeleton (not implemented)
+    EFFECTIVE_GO.md              Complete local Effective Go article
     assets/
       templates/                Reserved for generated project templates
   spec-kit/
@@ -50,6 +54,105 @@ the installer does not use `CODEX_HOME`.
 Rerun the installation commands from the same directory to refresh the installed
 contents. Files absent from the latest repository copy are left in place. Start
 a new Codex session after updating instructions so it loads the changes.
+
+## Personal command help
+
+The [codex-help skill](skills/codex-help/SKILL.md) lists the workflows in
+[COMMANDS.md](skills/codex-help/COMMANDS.md), explains individual commands, and
+applies selected preferences to a project. These are natural-language chat
+requests, not Bash commands or registered slash commands.
+
+### Make the skills available
+
+For user-wide discovery, link these skills into `~/.agents/skills/`. From this
+repository's root, run:
+
+```bash
+preferences_root="$PWD"
+mkdir -p "$HOME/.agents/skills"
+for skill_file in "$preferences_root"/skills/*/SKILL.md; do
+    skill_directory="$(dirname "$skill_file")"
+    skill_name="$(basename "$skill_directory")"
+    skill_link="$HOME/.agents/skills/$skill_name"
+    if [[ -e "$skill_link" || -L "$skill_link" ]]; then
+        printf 'Already exists; leaving unchanged: %s\n' "$skill_link"
+    else
+        ln -s "$skill_directory" "$skill_link"
+    fi
+done
+```
+
+To use the copy installed by `install.sh` instead, set
+`preferences_root="$HOME/.codex"` before the loop. Link one source per skill;
+existing destinations are preserved, including broken symlinks, so inspect any
+"Already exists" message if a skill is missing or points to an older copy.
+Keep the source directory in place: links use its absolute path. The help skill
+resolves references from that source, so the sibling skills, root `AGENTS.md`,
+and `templates/` must remain together.
+
+Start a new Codex session if newly linked skills are not visible. You can also
+attach `skills/codex-help/SKILL.md` directly in chat and ask it to show your
+commands. In the Codex CLI, `/skills` opens the installed skill selector.
+
+### Ask for help in chat
+
+```text
+$codex-help
+$codex-help help go logging
+```
+
+The first request lists all catalog commands and examples. The second explains
+one command. Neither changes files or runs the listed actions. Once the skill is
+discovered, `codex help` and `list my commands` also request the catalog.
+
+### Apply or review individual preferences
+
+Open a session in the target project, then use `apply` to make changes or `review`
+to report findings without edits. Supply a file, package, or project path to
+narrow the target; otherwise the current project is used.
+
+```text
+$codex-help review go solid ./internal
+$codex-help apply go logging ./internal/service
+$codex-help apply go style and go docs ./internal/service
+$codex-help apply go gitignore
+$codex-help apply go http-tests ./internal/client
+$codex-help apply project instructions /path/to/project
+$codex-help verify go
+```
+
+Available Go topics include `style`, `solid`, `effective`, `docs`, `gitignore`,
+`tests`, `http-tests`, `errors`, `logging`, `tracing`, `http`, and `json`.
+Selecting a topic applies only that concern; it does not run a full project
+initialization or refresh reference material. JSON preferences are checked against
+the supported Go toolchain, and new instrumentation dependencies are explained.
+`verify go` runs build, tests, and vet from the target module root and reports
+results without making code fixes.
+
+For an existing Spec Kit project, documentation and principles can be updated
+independently:
+
+```text
+$codex-help review spec-kit principles
+$codex-help apply spec-kit readme
+$codex-help apply spec-kit principles
+```
+
+These selected actions preserve existing customization and do not initialize or
+upgrade Spec Kit. For full setup, use `$codex-help build spec-kit` or
+`$spec-kit build spec-kit`. To explicitly refresh only the local Effective Go
+article, use `$codex-help refresh codex please`. That refresh does not reinstall
+personal preferences. The `initialize-go` skill remains a preference guide with
+unfinished full-scaffolding work; its à-la-carte commands do not imply that a
+complete Go project generator exists.
+
+### Add a personal command
+
+Add an entry to [COMMANDS.md](skills/codex-help/COMMANDS.md) with its request,
+expected outcome, and source skill, template, or script. Keep the detailed rules
+in that source. The help list reads the catalog each time, so new entries do not
+need a second manually maintained help table. Update the help skill's routing
+when adding a new action form beyond `help`, `apply`, `review`, or `verify go`.
 
 ## Use the Go project template
 
