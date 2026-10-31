@@ -1,0 +1,4 @@
+# Keep editor settings out of shared GitHub configuration.
+.idea/
+.vscode/
+*.iml
