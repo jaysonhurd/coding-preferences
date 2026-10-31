@@ -56,6 +56,7 @@ skills/
     SKILL.md                    Personal command help and selected-action routing
     COMMANDS.md                 Command catalog and links to source guidance
     PULL_REQUESTS.md             Branch, commit, push, PR, and merge workflows
+    UPDATE_ALL.md               Apply all applicable preferences to a project
   initialize-go/
     SKILL.md                    Go initialization skill skeleton (not implemented)
     EFFECTIVE_GO.md              Complete local Effective Go article
@@ -148,6 +149,30 @@ $codex-help help go logging
 The first request lists all catalog commands and examples. The second explains
 one command. Neither changes files or runs the listed actions. Once the skill is
 discovered, `codex help` and `list my commands` also request the catalog.
+
+### Apply all preferences
+
+In the target project, request:
+
+```text
+codex update all
+codex update all /path/to/project
+$codex-help update all
+```
+
+This applies all applicable guidance from the available coding-preferences copy:
+Go preferences, project instructions, repository validation, and documentation
+and constitution principles for existing Spec Kit projects. It preserves project
+requirements and customization, runs relevant checks, and reports changes,
+unchanged items, skips, and blockers. Non-Go projects receive applicable general
+instructions and validation without Go scaffolding. Repeated runs should leave
+already compliant content unchanged.
+
+See [Update all preferences](skills/codex-help/UPDATE_ALL.md) for the workflow.
+Like the other personal commands, this is a chat request. It does not download
+new preferences, initialize or upgrade Spec Kit, refresh the Effective Go source,
+change remote settings, or publish changes. Refresh an installed source copy
+using the installation instructions above before invoking it when needed.
 
 ### Apply or review individual preferences
 
@@ -248,7 +273,7 @@ expected outcome, and source skill, template, or script. Keep the detailed rules
 in that source. The help list reads the catalog each time, so new entries do not
 need a second manually maintained help table. Update the help skill's routing
 when adding a new action form beyond `help`, `apply`, `review`, `verify go`, or
-`verify repository`, `create pr`, or `merge pr`.
+`verify repository`, `update all`, `create pr`, or `merge pr`.
 
 ## Use the Go project template
 

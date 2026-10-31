@@ -1,6 +1,6 @@
 ---
 name: codex-help
-description: List or explain personal coding-preferences commands when asked for codex help, and apply or review selected Go preferences, repository validation, project instructions, Spec Kit documentation, or GitHub pull-request workflows. Use for this personal command catalog, not general Codex troubleshooting.
+description: List or explain personal coding-preferences commands when asked for codex help, handle codex update all, and apply or review selected Go preferences, repository validation, project instructions, Spec Kit documentation, or GitHub pull-request workflows. Use for this personal command catalog, not general Codex troubleshooting.
 ---
 
 # Personal command catalog
@@ -19,6 +19,10 @@ user names another target. Read the target's instructions before changing it.
 - Unknown commands: explain the available choices; do not guess an action.
 
 ## Selected actions
+
+- `codex update all [TARGET]` and `$codex-help update all [TARGET]`: follow
+  [Update all preferences](UPDATE_ALL.md) to apply all applicable repository
+  preferences together and verify the target.
 
 - `$codex-help apply COMMAND [TARGET]`: perform only the selected catalog action
   on the named target, or the current project when omitted.
