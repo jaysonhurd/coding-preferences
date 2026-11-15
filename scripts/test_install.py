@@ -20,7 +20,7 @@ class InstallerTests(unittest.TestCase):
             target = Path(directory)
             result = self.run_installer(target)
             self.assertEqual(result.returncode, 0, result.stderr)
-            skill = target / '.agents/skills/codex-help/SKILL.md'
+            skill = target / '.agents/skills/agent-help/SKILL.md'
             self.assertTrue(skill.is_file())
             self.assertTrue((skill.parent / '../../docs/development-preferences.md').resolve().is_file())
             self.assertFalse((target / '.codex').exists())
@@ -44,7 +44,7 @@ class InstallerTests(unittest.TestCase):
                 path = target / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('custom ' + name)
-            broken = target / '.agents/skills/codex-help'
+            broken = target / '.agents/skills/agent-help'
             broken.symlink_to('missing')
             result = self.run_installer(target)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -67,7 +67,19 @@ class InstallerTests(unittest.TestCase):
                 self.assertEqual(list(outside.iterdir()), [])
                 self.assertFalse((target / 'AGENTS.md').exists())
 
-    def test_missing_target_fails(self):
+    def test_missing_nested_target_is_created(self):
         with tempfile.TemporaryDirectory() as directory:
-            result = self.run_installer(Path(directory) / 'missing')
+            target = Path(directory) / 'missing parent' / 'new project'
+            result = self.run_installer(target)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue((target / 'AGENTS.md').is_file())
+            self.assertTrue((target / '.agents/skills/agent-help/SKILL.md').is_file())
+            self.assertFalse((target / '.agents/skills/codex-help').exists())
+
+    def test_file_target_fails_without_changes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / 'file'
+            target.write_text('preserve me')
+            result = self.run_installer(target)
             self.assertNotEqual(result.returncode, 0)
+            self.assertEqual(target.read_text(), 'preserve me')

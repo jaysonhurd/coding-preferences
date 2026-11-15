@@ -1,32 +1,32 @@
 # Personal commands
 
-These are chat requests interpreted by the `codex-help` skill, not native slash
+These are chat requests interpreted by the `agent-help` skill, not native slash
 commands or Bash commands. Replace `TARGET` with a project, package, or file path;
 omit it to use the current project. Help lists this catalog without executing it.
 
 ```text
-$codex-help
-codex update all
-codex update all /path/to/project
-$codex-help help go logging
-$codex-help review go solid ./internal
-$codex-help apply go logging ./internal/service
-$codex-help apply go style and go docs ./internal/service
-$codex-help verify go
-$codex-help apply repository validation
-$codex-help review repository validation
-$codex-help verify repository
-$codex-help create pr
-$codex-help merge pr
+$agent-help
+agent update all
+agent update all /path/to/project
+$agent-help help go logging
+$agent-help review go solid ./internal
+$agent-help apply go logging ./internal/service
+$agent-help apply go style and go docs ./internal/service
+$agent-help verify go
+$agent-help apply repository validation
+$agent-help review repository validation
+$agent-help verify repository
+$agent-help create pr
+$agent-help merge pr
 ```
 
 ## Apply all preferences
 
 | Request | Behavior and source |
 | --- | --- |
-| `codex update all TARGET` | Apply all applicable coding-preferences guidance to the target project using [Update all preferences](UPDATE_ALL.md), then run relevant checks. Includes Go preferences, project instructions, repository validation, and existing Spec Kit documentation and principles where applicable. Report applied, unchanged, skipped, and blocked items. |
+| `agent update all TARGET` | Apply all applicable coding-preferences guidance to the target project using [Update all preferences](UPDATE_ALL.md), then run relevant checks. Includes Go preferences, project instructions, repository validation, and existing Spec Kit documentation and principles where applicable. Report applied, unchanged, skipped, and blocked items. |
 
-`$codex-help update all TARGET` is the explicit skill invocation. Omit `TARGET`
+`$agent-help update all TARGET` is the explicit skill invocation. Omit `TARGET`
 to use the current project. This updates the project from the available source
 copy; it does not fetch or reinstall coding-preferences, initialize or upgrade
 Spec Kit, refresh Effective Go, publish changes, or configure remote settings.
@@ -63,7 +63,7 @@ These commands use its existing guidance without running full initialization.
 | `apply project instructions TARGET` | Adapt [templates/go-project/AGENTS.md](../../templates/go-project/AGENTS.md) to the target Go project. Fill placeholders from inspected project facts, merge existing instructions, and flag facts that cannot be determined. Keep instructions concise and reference an existing Spec Kit constitution rather than duplicating principles. Keep generated skills intact; add no unnecessary agent definitions or Codex config. For non-Go projects, use their actual language and commands. Do not create a module or application. |
 | `review project instructions TARGET` | Compare project instructions with that template and [personal defaults](../../docs/development-preferences.md), reporting missing or conflicting guidance without editing. |
 | `verify go TARGET` | From the target Go module root, run `go build ./...`, `go test ./...`, and `go vet ./...` as described in the template. Respect documented build tags and prerequisites. Report failures and missing prerequisites; do not rewrite code or install tools as part of verification. Ask which module to use if a multi-module target is ambiguous. |
-| `refresh codex please` | Explicitly refresh the local Effective Go copy using **General → Effective Go** in [initialize-go](../initialize-go/SKILL.md). Preserve the article, examples, links, license, and retrieval date. This does not reinstall personal preferences or upgrade Spec Kit. |
+| `refresh agent please` | Explicitly refresh the local Effective Go copy using **General → Effective Go** in [initialize-go](../initialize-go/SKILL.md). Preserve the article, examples, links, license, and retrieval date. This does not reinstall personal preferences or upgrade Spec Kit. |
 
 ## GitHub pull requests
 

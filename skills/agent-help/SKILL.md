@@ -1,6 +1,6 @@
 ---
-name: codex-help
-description: List or explain personal coding-preferences commands when asked for codex help, handle codex update all, and apply or review selected Go preferences, repository validation, project instructions, Spec Kit documentation, or GitHub pull-request workflows. Use for this personal command catalog, not general Codex troubleshooting.
+name: agent-help
+description: List or explain personal coding-preferences commands when asked for agent help, handle agent update all, and apply or review selected Go preferences, repository validation, project instructions, Spec Kit documentation, or GitHub pull-request workflows. Use for this personal command catalog, not general agent troubleshooting.
 ---
 
 # Personal command catalog
@@ -12,38 +12,38 @@ user names another target. Read the target's instructions before changing it.
 
 ## Help
 
-- `$codex-help`, `codex help`, and `list my commands`: display the catalog's
+- `$agent-help`, `agent help`, and `list my commands`: display the catalog's
   command names, purposes, and invocation examples. Do not execute the commands.
-- `$codex-help help COMMAND`: explain that command, its scope, source guidance,
+- `$agent-help help COMMAND`: explain that command, its scope, source guidance,
   prerequisites, and an example. Help requests never change files or install tools.
 - Unknown commands: explain the available choices; do not guess an action.
 
 ## Selected actions
 
-- `codex update all [TARGET]` and `$codex-help update all [TARGET]`: follow
+- `agent update all [TARGET]` and `$agent-help update all [TARGET]`: follow
   [Update all preferences](UPDATE_ALL.md) to apply all applicable repository
   preferences together and verify the target.
 
-- `$codex-help apply COMMAND [TARGET]`: perform only the selected catalog action
+- `$agent-help apply COMMAND [TARGET]`: perform only the selected catalog action
   on the named target, or the current project when omitted.
-- `$codex-help review COMMAND [TARGET]`: inspect the selected concern and report
+- `$agent-help review COMMAND [TARGET]`: inspect the selected concern and report
   findings with file locations; do not edit files or install tools.
-- `$codex-help verify go [TARGET]`: run the catalog's Go checks and report results.
-- `$codex-help apply repository validation [TARGET]`: follow the
+- `$agent-help verify go [TARGET]`: run the catalog's Go checks and report results.
+- `$agent-help apply repository validation [TARGET]`: follow the
   [repository-validation skill](../repository-validation/SKILL.md) to create or
   extend local checks and matching CI. Configure remote enforcement only when
   the user also requests remote setup.
-- `$codex-help review repository validation [TARGET]`: use that skill to inspect
+- `$agent-help review repository validation [TARGET]`: use that skill to inspect
   local/CI coverage and accessible remote settings without making changes.
-- `$codex-help verify repository [TARGET]`: run the target's documented existing
+- `$agent-help verify repository [TARGET]`: run the target's documented existing
   repository checks and report results; do not create checks, install missing
   tools, change remote settings, or repair failures as part of verification.
-- `$codex-help create pr [TARGET]`: follow [Pull-request workflows](PULL_REQUESTS.md)
+- `$agent-help create pr [TARGET]`: follow [Pull-request workflows](PULL_REQUESTS.md)
   to create a branch, stage and commit scoped changes, push, and open a PR with
   a Markdown summary and detailed description. Leave it open; never merge.
-- `$codex-help merge pr [TARGET]`: follow the same workflow, then merge only
+- `$agent-help merge pr [TARGET]`: follow the same workflow, then merge only
   after validation and required GitHub checks and reviews pass.
-- Recognize the catalog's existing `build spec-kit` and `refresh codex please`
+- Recognize the catalog's existing `build spec-kit` and `refresh agent please`
   requests as their explicitly documented workflows. They are separate actions;
   applying another preference does not trigger them.
 
