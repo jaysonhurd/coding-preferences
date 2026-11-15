@@ -10,7 +10,7 @@ This is a chat request, not a Bash command; it preserves existing customizations
 
 ### Developer setup
 
-Install Python 3.11+, [uv](https://docs.astral.sh/uv/), and Codex. Then install the
+Install Python 3.11+, [uv](https://docs.astral.sh/uv/), and your chosen agent. Then install the
 Specify CLI:
 
 ```bash
@@ -28,8 +28,11 @@ the setup, replacing `VERSION` with that recorded version.
 For the initial setup of a project that does not yet contain `.specify/`, run:
 
 ```bash
-specify init --here --integration codex --script sh
+specify init --here --integration INTEGRATION --script sh
 ```
+
+Replace `INTEGRATION` with the project's selected integration key from the installed
+CLI. Replace the skill requests below with that integration's invocation syntax.
 
 Review merge prompts in an existing directory. Do not rerun initialization as a
 routine refresh. Follow the [upgrade guide](https://github.github.io/spec-kit/upgrade.html)
@@ -43,7 +46,7 @@ AGENTS.md                       Concise structure, commands, and conventions
 .specify/memory/constitution.md   Durable principles, quality standards, governance
 .specify/templates/              Templates for feature artifacts
 .specify/scripts/                Spec Kit workflow helpers
-.agents/skills/speckit-*/         Managed workflow commands (Codex integration)
+.agents/skills/speckit-*/         Managed workflow commands (when supplied by the selected integration)
 .agents/skills/<custom>/SKILL.md  Optional separate project workflows
 specs/<feature>/spec.md          Feature requirements
 specs/<feature>/plan.md          Feature design
@@ -57,17 +60,17 @@ Keep generated skills intact; use supported presets or project-local overrides
 for changes after checking how the installed version manages files. Keep root
 guidance concise and link to the constitution without duplicating its principles.
 Do not create agent/subagent definitions without a project need, or
-`.codex/config.toml` solely for skills; Codex settings or event handlers may need it.
+agent configuration files solely for skills; agent settings or event handlers may need them.
 
 For an agent-neutral baseline, inspect `specify integration status` and consider
 `none` using the [integration guide](https://github.com/github/spec-kit/blob/main/docs/integrations/index.md).
 Keep harness-specific generated files separate from shared guidance. Adapt this
-section to the selected integration: `none` does not supply the Codex skills below.
+section to the selected integration: `none` does not supply the agent skills below.
 Do not switch an existing integration as a documentation side effect.
 
 ### Feature workflow
 
-Run these in Codex chat, one step at a time, reviewing each result. Establish the
+Adapt these skill requests to your agent's invocation syntax and run them in chat, one step at a time, reviewing each result. Establish the
 constitution once per project and amend it when project principles change:
 
 ```text

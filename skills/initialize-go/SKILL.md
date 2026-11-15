@@ -66,7 +66,7 @@ https://go.dev/doc/modules/layout
 - Always update `.gitignore` to ignore the `.idea/` directory (JetBrains preferences)
 - Always update `.gitignore` to ignore `.json` files.  Any required json files (fixtures, tests etc.) will be added as exclusions and should be allowed.  When updating the project please issue warnings each time with lists of these allowed .json files for awareness.
 - Always update `.gitignore` to ignore `.log` files unless excluded explicitly.  Always put a `.gitkeep` file in the `/log` directory so that it exists in the Github repository.
-- Always update `.gitignore` to ignore the `.codex` directory.
+- Ignore machine-local agent state in `.gitignore`, preserving shared project guidance and configuration.
 
 ## Tests
 - Always create unit tests where possible using Go's built in testing suite.

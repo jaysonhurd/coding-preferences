@@ -5,6 +5,81 @@ Reusable project guidance, optional workflows, and project templates. Root
 live in [development preferences](docs/development-preferences.md). Project
 starting points live under `templates/` and custom workflows under `skills/`.
 
+## Install in a project
+
+Requires Bash, Git, and standard Unix copy/link tools; downloading also requires
+curl and network access. Run from the target project root, or pass a target path to the script:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o /tmp/coding-preferences-install.sh
+bash /tmp/coding-preferences-install.sh
+rm /tmp/coding-preferences-install.sh
+```
+
+Or run `bash /path/to/coding-preferences/install.sh /path/to/project` from a local
+checkout; this installs the checkout's contents without a download. The installer
+creates the target directory (including missing parents), `.agents/`, the source
+bundle, and `.agents/skills/` as needed. It rejects a target that is an existing file.
+
+The installer puts reusable sources and their references in
+`.agents/coding-preferences/` and links custom skills into `.agents/skills/`.
+It copies only skills, templates, docs, README, root guidance, and license;
+it does not copy Git metadata, CI, or harness configuration. It creates a small
+root `AGENTS.md` only if absent. Existing instructions, source bundles, skills
+(including broken symlinks), constitutions, feature documents, and generated
+`speckit-*` files are preserved. Destination directory symlinks are rejected.
+No agent-specific configuration or agent definitions are created.
+
+Review the installed workflows and adapt root guidance to actual project commands.
+For an existing Spec Kit setup, request `$agent-help apply spec-kit guidance`
+to organize guidance using the guidance responsibilities below; `build spec-kit` also reviews existing setup before filling
+missing pieces. The installer does not run an agent, merge constitution principles,
+initialize or migrate Spec Kit, change remote settings, or publish files.
+
+## Update an installed copy
+
+Reruns preserve the installed source bundle and existing skill destinations. To
+refresh, review local edits, back up and move `.agents/coding-preferences/` outside
+that path, then rerun with the reviewed new source. Existing relative skill links
+will resolve to the replacement bundle. Review existing root instructions manually;
+the installer never overwrites them. Legacy agent-specific installs are left untouched;
+review any old global links before removing a legacy copy. Restart the agent session
+after changing skills. Installer behavior is covered by isolated local tests;
+these tests do not exercise a live network clone or prove agent behavior.
+
+## Install for user-wide discovery
+
+For user-wide discovery, link these skills into `~/.agents/skills/`. From this
+repository's root, run:
+
+```bash
+preferences_root="$PWD"
+mkdir -p "$HOME/.agents/skills"
+for skill_file in "$preferences_root"/skills/*/SKILL.md; do
+    skill_directory="$(dirname "$skill_file")"
+    skill_name="$(basename "$skill_directory")"
+    skill_link="$HOME/.agents/skills/$skill_name"
+    if [[ -e "$skill_link" || -L "$skill_link" ]]; then
+        printf 'Already exists; leaving unchanged: %s\n' "$skill_link"
+    else
+        ln -s "$skill_directory" "$skill_link"
+    fi
+done
+```
+
+For project-local discovery, `install.sh` creates the links automatically. To
+link its bundle user-wide instead, set
+`preferences_root="/path/to/project/.agents/coding-preferences"` before the loop. Link one source per skill;
+existing destinations are preserved, including broken symlinks, so inspect any
+"Already exists" message if a skill is missing or points to an older copy.
+Keep the source directory in place: links use its absolute path. The help skill
+resolves references from that source, so the sibling skills, root `AGENTS.md`,
+`docs/`, and `templates/` must remain together.
+
+Start a new agent session if newly linked skills are not visible. You can also
+attach `skills/agent-help/SKILL.md` directly in chat and ask it to show your
+commands. Use your agent's skill discovery mechanism to select installed skills.
+
 ## Guidance responsibilities
 
 | Location in a target project | Responsibility |
@@ -22,7 +97,7 @@ keep harness-specific files separate. Follow the
 [official integration workflow](https://github.com/github/spec-kit/blob/main/docs/integrations/index.md)
 and the installed CLI's help. Do not silently migrate an existing integration.
 Agent/subagent definitions need an actual project use; skills alone do not require
-`.codex/config.toml`. That file is relevant for Codex settings or event handlers.
+agent configuration files. These files are relevant for agent settings or event handlers.
 
 This repository distributes guidance and setup workflows; it has no initialized
 Spec Kit scaffold. Installation does not create a constitution or feature documents.
@@ -96,48 +171,6 @@ templates/
     AGENTS.md                   Starting point for Go project instructions
 ```
 
-## Install in a project
-
-Requires Bash, Git, and standard Unix copy/link tools; downloading also requires
-curl and network access. Run from the target project root, or pass a target path to the script:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o /tmp/coding-preferences-install.sh
-bash /tmp/coding-preferences-install.sh
-rm /tmp/coding-preferences-install.sh
-```
-
-Or run `bash /path/to/coding-preferences/install.sh /path/to/project` from a local
-checkout; this installs the checkout's contents without a download. The installer
-creates the target directory (including missing parents), `.agents/`, the source
-bundle, and `.agents/skills/` as needed. It rejects a target that is an existing file.
-
-The installer puts reusable sources and their references in
-`.agents/coding-preferences/` and links custom skills into `.agents/skills/`.
-It copies only skills, templates, docs, README, root guidance, and license;
-it does not copy Git metadata, CI, or harness configuration. It creates a small
-root `AGENTS.md` only if absent. Existing instructions, source bundles, skills
-(including broken symlinks), constitutions, feature documents, and generated
-`speckit-*` files are preserved. Destination directory symlinks are rejected.
-No `.codex` directory, config file, or agent definitions are created.
-
-Review the installed workflows and adapt root guidance to actual project commands.
-For an existing Spec Kit setup, request `$agent-help apply spec-kit guidance`
-to organize guidance using the responsibilities above; `build spec-kit` also reviews existing setup before filling
-missing pieces. The installer does not run an agent, merge constitution principles,
-initialize or migrate Spec Kit, change remote settings, or publish files.
-
-## Update an installed copy
-
-Reruns preserve the installed source bundle and existing skill destinations. To
-refresh, review local edits, back up and move `.agents/coding-preferences/` outside
-that path, then rerun with the reviewed new source. Existing relative skill links
-will resolve to the replacement bundle. Review existing root instructions manually;
-the installer never overwrites them. Legacy `.codex` installs are left untouched;
-review any old global links before removing a legacy copy. Restart the agent session
-after changing skills. Installer behavior is covered by isolated local tests;
-these tests do not exercise a live network clone or prove agent behavior.
-
 ## Command rename
 
 Personal commands now use `agent` naming: `$agent-help`, `agent help`,
@@ -145,8 +178,7 @@ Personal commands now use `agent` naming: `$agent-help`, `agent help`,
 same. Existing installations preserve their bundles, so use the documented source
 bundle refresh procedure to get the renamed `agent-help` skill. Review and remove
 obsolete help-skill links manually after checking their targets; the installer
-does not delete or rewrite existing skills. Codex product names, `.codex` paths,
-and Spec Kit's official `codex` integration key retain their actual names.
+does not delete or rewrite existing skills. Agent integration identifiers and configuration paths must match the selected tool.
 
 ## Personal command help
 
@@ -154,39 +186,6 @@ The [agent-help skill](skills/agent-help/SKILL.md) lists the workflows in
 [COMMANDS.md](skills/agent-help/COMMANDS.md), explains individual commands, and
 applies selected preferences to a project. These are natural-language chat
 requests, not Bash commands or registered slash commands.
-
-### Make the skills available
-
-For user-wide discovery, link these skills into `~/.agents/skills/`. From this
-repository's root, run:
-
-```bash
-preferences_root="$PWD"
-mkdir -p "$HOME/.agents/skills"
-for skill_file in "$preferences_root"/skills/*/SKILL.md; do
-    skill_directory="$(dirname "$skill_file")"
-    skill_name="$(basename "$skill_directory")"
-    skill_link="$HOME/.agents/skills/$skill_name"
-    if [[ -e "$skill_link" || -L "$skill_link" ]]; then
-        printf 'Already exists; leaving unchanged: %s\n' "$skill_link"
-    else
-        ln -s "$skill_directory" "$skill_link"
-    fi
-done
-```
-
-For project-local discovery, `install.sh` creates the links automatically. To
-link its bundle user-wide instead, set
-`preferences_root="/path/to/project/.agents/coding-preferences"` before the loop. Link one source per skill;
-existing destinations are preserved, including broken symlinks, so inspect any
-"Already exists" message if a skill is missing or points to an older copy.
-Keep the source directory in place: links use its absolute path. The help skill
-resolves references from that source, so the sibling skills, root `AGENTS.md`,
-`docs/`, and `templates/` must remain together.
-
-Start a new Codex session if newly linked skills are not visible. You can also
-attach `skills/agent-help/SKILL.md` directly in chat and ask it to show your
-commands. In the Codex CLI, `/skills` opens the installed skill selector.
 
 ### Ask for help in chat
 
@@ -348,8 +347,8 @@ using the official Specify CLI, adapts a constitution to the project, and adds
 setup and feature-workflow instructions to that project's `README.md`. It bundles
 [constitution principles](skills/spec-kit/assets/constitution-principles.md) and
 a [README section](skills/spec-kit/assets/readme-section.md); upstream generates
-the required templates, scripts, and Codex skills. Initial setup requires network
-access, Python 3.11+, uv, and Codex.
+the required templates, scripts, and agent skills. Initial setup requires network
+access, Python 3.11+, uv, and your chosen agent.
 
 After installing this repository's project-local skills, open a session in
 the target project and request:
@@ -369,8 +368,10 @@ project root:
 
 ```bash
 uv tool install specify-cli
-specify init --here --integration codex --script sh
+specify init --here --integration INTEGRATION --script sh
 ```
+
+Replace `INTEGRATION` with the selected agent integration key from the installed CLI.
 
 Use the bundled README section for subsequent developer setup and the chat-based
 feature workflow. Keep shared `.specify/`, `.agents/skills/`, and `specs/` content
@@ -380,18 +381,15 @@ target project.
 
 ## How instructions interact
 
-Codex loads global instructions from its home directory, then project instructions
-from the project root down to the current working directory. More specific
-instructions take precedence when guidance conflicts. In each directory,
-`AGENTS.override.md` takes precedence over `AGENTS.md`; a global override can also
-take precedence over the installed personal defaults. See the
-[official OpenAI documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+Check your agent's documentation for instruction discovery and precedence,
+including support for global defaults, project `AGENTS.md` files, and local
+overrides. Keep tool-specific configuration separate from shared guidance.
 
 Use optional global instructions for personal defaults and a project's root `AGENTS.md`
 for its architecture, commands, and conventions. The root instructions also apply
 when working in this repository. The template is intended for copying into another
 project; its presence here does not apply Go-specific guidance to unrelated projects.
 
-These Markdown files guide Codex. They do not configure GoLand, change Go compiler
+These Markdown files guide compatible agents. They do not configure GoLand, change Go compiler
 behavior, or enforce formatting or linter rules. Configure the IDE, tools, and CI
 separately when enforcement is needed.
