@@ -31,6 +31,29 @@ complete missing setup rather than forcing a refresh or implementing a feature.
   documentation. Do not reinitialize it merely because this skill was invoked.
   For an explicitly requested upgrade, follow upstream's upgrade instructions.
 
+## Organize existing guidance
+
+Use the responsibility boundaries in
+[repository guidance](../../AGENTS.md#guidance-responsibilities). Review existing
+Spec Kit management before editing: inspect integration status, installed version,
+presets, project overrides, and local modifications. Keep generated `speckit-*`
+skills intact; use supported presets or project-local overrides for customizations,
+checking the installed CLI and upstream documentation for supported paths.
+Keep optional project workflows in separate custom skills, never agent or subagent
+definitions unless the project already needs them. Do not create `.codex/config.toml`
+merely to install skills; it is relevant only for Codex configuration or event handlers.
+Keep root instructions concise and link to constitution principles rather than
+copying them. Preserve amendment rules and existing project customizations.
+
+For an agent-neutral team baseline, inspect `specify integration status` first.
+Consider `--integration none` for new scaffolds. For an explicitly chosen migration,
+follow the installed CLI's supported switch workflow, review retained or modified
+harness files, and verify the committed baseline has only `none` installed and
+default. Never silently switch an existing team's integration. See the
+[official integration guide](https://github.com/github/spec-kit/blob/main/docs/integrations/index.md).
+The `none` integration supplies shared scaffolding without generated agent skills;
+document the team's actual workflow rather than promising `$speckit-*` commands.
+
 ## Generate the scaffold
 
 Requires Python 3.11+, `uv`, and the chosen agent. Check existing tools first;
