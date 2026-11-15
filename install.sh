@@ -71,10 +71,10 @@ and quality standards; link to it here after verifying it exists. Keep generated
 or project-local overrides. Separate custom skills from generated workflow skills.
 Feature requirements, design, and work items belong in `specs/<feature>/spec.md`,
 `plan.md`, and `tasks.md`. Skills alone need no agent/subagent definitions or
-`.codex/config.toml`. Inspect the integration before considering a `none` baseline.
+agent configuration files. Inspect the integration before considering a `none` baseline.
 GUIDANCE
 fi
 
 printf 'Installed project-local workflows in %s/.agents/skills\n' "$target"
 printf 'Review existing Spec Kit guidance with $agent-help apply spec-kit guidance.\n'
-printf 'Existing constitution, generated Spec Kit skills, feature documents, and .codex files were preserved.\n'
+printf 'Existing constitution, generated Spec Kit skills, feature documents, and agent configuration files were preserved.\n'

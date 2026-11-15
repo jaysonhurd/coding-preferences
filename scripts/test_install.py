@@ -23,7 +23,7 @@ class InstallerTests(unittest.TestCase):
             skill = target / '.agents/skills/agent-help/SKILL.md'
             self.assertTrue(skill.is_file())
             self.assertTrue((skill.parent / '../../docs/development-preferences.md').resolve().is_file())
-            self.assertFalse((target / '.codex').exists())
+            self.assertEqual({entry.name for entry in target.iterdir()}, {'.agents', 'AGENTS.md'})
             self.assertTrue((target / 'AGENTS.md').is_file())
             self.assertFalse((target / '.specify').exists())
             skill.write_text('local skill edit')
@@ -39,7 +39,7 @@ class InstallerTests(unittest.TestCase):
             files = ['AGENTS.md', '.specify/memory/constitution.md',
                      '.agents/skills/speckit-plan/SKILL.md',
                      '.agents/skills/spec-kit/SKILL.md',
-                     '.codex/config.toml', 'specs/feature/plan.md']
+                     '.agent-local/config.toml', 'specs/feature/plan.md']
             for name in files:
                 path = target / name
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -74,7 +74,6 @@ class InstallerTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue((target / 'AGENTS.md').is_file())
             self.assertTrue((target / '.agents/skills/agent-help/SKILL.md').is_file())
-            self.assertFalse((target / '.agents/skills/codex-help').exists())
 
     def test_file_target_fails_without_changes(self):
         with tempfile.TemporaryDirectory() as directory:

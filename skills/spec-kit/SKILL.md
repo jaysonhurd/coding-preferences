@@ -24,9 +24,9 @@ complete missing setup rather than forcing a refresh or implementing a feature.
 
 - Identify the requested project root and read its `AGENTS.md`, README, ignore
   rules, and existing `.specify` and agent configuration. Preserve unrelated work.
-- Use the requested agent integration; default to `codex` for Codex projects.
-  Examples below use Codex on Bash. Adapt the integration and script type when
-  the target environment differs.
+- Use the requested agent integration or the project's existing integration.
+  Examples below use Bash and an `INTEGRATION` placeholder; replace it with the
+  selected integration key from the installed CLI. Adapt the script type as needed.
 - If a working scaffold already exists, complete only missing customization and
   documentation. Do not reinitialize it merely because this skill was invoked.
   For an explicitly requested upgrade, follow upstream's upgrade instructions.
@@ -40,8 +40,8 @@ presets, project overrides, and local modifications. Keep generated `speckit-*`
 skills intact; use supported presets or project-local overrides for customizations,
 checking the installed CLI and upstream documentation for supported paths.
 Keep optional project workflows in separate custom skills, never agent or subagent
-definitions unless the project already needs them. Do not create `.codex/config.toml`
-merely to install skills; it is relevant only for Codex configuration or event handlers.
+definitions unless the project already needs them. Do not create agent configuration files
+merely to install skills; they are relevant only for agent settings or event handlers.
 Keep root instructions concise and link to constitution principles rather than
 copying them. Preserve amendment rules and existing project customizations.
 
@@ -64,18 +64,18 @@ what is missing rather than claiming that setup is complete.
 uv tool install specify-cli
 
 # Run from the target project root, not from this skill's directory.
-specify init --here --integration codex --script sh
+specify init --here --integration INTEGRATION --script sh
 ```
 
 For a new project directory, use
-`specify init PROJECT_NAME --integration codex --script sh` instead. Replace
+`specify init PROJECT_NAME --integration INTEGRATION --script sh` instead. Replace
 `PROJECT_NAME` with the actual name. An existing nonempty directory may require
 merge confirmation. Review possible overlaps first; use `--force` only after
 determining that the merge will preserve required customizations. Never blanket
 replace an existing constitution, README, AGENTS.md, or agent configuration.
 
 If `.specify` is already initialized but lacks the requested integration, use
-`specify integration install codex` instead of initializing again. Check the
+`specify integration install INTEGRATION` instead of initializing again. Check the
 installed CLI's `--help` and official documentation if its flags differ.
 
 Expected core output (additional managed files may vary by release):
@@ -85,7 +85,7 @@ Expected core output (additional managed files may vary by release):
   memory/constitution.md
   scripts/
   templates/
-.agents/skills/speckit-*/SKILL.md    # Codex integration
+.agents/skills/speckit-*/SKILL.md    # When supplied by the selected integration
 specs/                            # Feature documents created during the workflow
 ```
 
@@ -117,7 +117,7 @@ the project requests that workflow.
    state. If the project ignores all `*.json`, inspect generated files and add
    narrow exceptions for required shared JSON configuration. Report the actual
    exception paths; do not allow all JSON or commit machine-local feature state.
-   If `.codex/` is ignored, inspect generated changes there and explain any shared
+   If agent configuration directories are ignored, inspect generated changes and explain any shared
    configuration that needs an explicit exception; never commit credentials or
    session data. Preserve `.idea/` and other existing IDE ignores.
 
@@ -138,7 +138,7 @@ the project requests that workflow.
 - Run `specify check` from the target root and inspect the generated diff.
 - Confirm the constitution, core templates, helper scripts, and selected agent
   skills exist and are nonempty. Check that the README's commands match the
-  generated integration. For Codex, current skills use `$speckit-...` in chat.
+  generated integration. Use the selected agent's invocation syntax in chat.
 - Check relevant generated shared files with `git check-ignore -v -- PATH`;
   distinguish intentional local-state ignores from accidentally ignored assets.
 - Confirm there are no unresolved constitution placeholders introduced by setup,
@@ -153,5 +153,5 @@ Consult these when installing or resolving version differences:
 
 - [Spec Kit installation and prerequisites](https://github.com/github/spec-kit#get-started)
 - [Core initialization commands](https://github.github.io/spec-kit/reference/core.html)
-- [Codex integration and skill invocation](https://github.com/github/spec-kit/blob/main/docs/integrations/codex.md)
+- [Agent integrations and invocation](https://github.com/github/spec-kit/blob/main/docs/integrations/index.md)
 - [Upgrade existing infrastructure](https://github.github.io/spec-kit/upgrade.html)

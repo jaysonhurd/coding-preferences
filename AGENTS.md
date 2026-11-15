@@ -23,7 +23,7 @@ belong in `.agents/skills/<custom-skill>/SKILL.md`. Feature requirements, design
 and work items belong in `specs/<feature>/spec.md`, `plan.md`, and `tasks.md`.
 
 Do not create agent or subagent definitions without a project need. Skills alone
-do not require `.codex/config.toml`; use it only for actual Codex configuration
+do not require agent configuration files; use them only for actual agent settings
 or Spec Kit event handlers. Inspect the existing integration before considering
 an agent-neutral `none` baseline. Keep harness-generated files separate from
 shared project guidance. This repository distributes setup guidance; it does not
