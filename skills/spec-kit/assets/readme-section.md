@@ -39,15 +39,31 @@ skills are not visible in the current session.
 ### Project layout
 
 ```text
-.specify/memory/constitution.md   Project principles and governance
+AGENTS.md                       Concise structure, commands, and conventions
+.specify/memory/constitution.md   Durable principles, quality standards, governance
 .specify/templates/              Templates for feature artifacts
 .specify/scripts/                Spec Kit workflow helpers
-.agents/skills/speckit-*/         Generated Codex skills
-specs/                          Feature specifications, plans, and tasks
+.agents/skills/speckit-*/         Managed workflow commands (Codex integration)
+.agents/skills/<custom>/SKILL.md  Optional separate project workflows
+specs/<feature>/spec.md          Feature requirements
+specs/<feature>/plan.md          Feature design
+specs/<feature>/tasks.md         Feature work items
 ```
 
 The `specs/` directory gains feature subdirectories during specification work;
 initial setup does not create a sample application or feature.
+
+Keep generated skills intact; use supported presets or project-local overrides
+for changes after checking how the installed version manages files. Keep root
+guidance concise and link to the constitution without duplicating its principles.
+Do not create agent/subagent definitions without a project need, or
+`.codex/config.toml` solely for skills; Codex settings or event handlers may need it.
+
+For an agent-neutral baseline, inspect `specify integration status` and consider
+`none` using the [integration guide](https://github.com/github/spec-kit/blob/main/docs/integrations/index.md).
+Keep harness-specific generated files separate from shared guidance. Adapt this
+section to the selected integration: `none` does not supply the Codex skills below.
+Do not switch an existing integration as a documentation side effect.
 
 ### Feature workflow
 

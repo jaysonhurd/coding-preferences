@@ -110,3 +110,13 @@ Do not assume an example entry point or undocumented service exists.
 - API and compatibility requirements: [TODO: Describe compatibility commitments.]
 - Operational constraints: [TODO: Document timeouts, shutdown, and deployment requirements.]
 - Other conventions or exceptions: [TODO: Add instructions specific to this project.]
+
+## Spec Kit projects
+
+If this project uses Spec Kit, link to `.specify/memory/constitution.md` for durable
+principles and quality standards; remove duplicated principles from this template.
+Keep root instructions focused on project structure, commands, and conventions.
+Preserve generated `.agents/skills/speckit-*`; customize through supported presets
+or project-local overrides. Separate custom workflows from generated skills and
+keep feature requirements, design, and tasks in `specs/<feature>/`. Skills alone
+do not require agent definitions or `.codex/config.toml`.

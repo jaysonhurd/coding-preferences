@@ -1,67 +1,46 @@
-# Personal Codex defaults
+# Repository guidance
 
-- Prefer Go for new backend services unless project requirements suggest otherwise.
-- Write idiomatic Go following the guidance in Effective Go.
-- Follow existing project architecture, naming, and formatting conventions.
-- Keep changes focused on the requested task.
-- Favor simple, maintainable solutions and straightforward, easy-to-read code.
-- Use blank lines between most logical sections of code to improve readability.
-- In Go, prefer grouped `const (...)` and `var (...)` declarations at the top of
-  each file (after imports) and function or method body, rather than separate
-  declarations for each variable. Keep declarations in the appropriate scope.
-- Prefer Go's standard `testing` package and native test tooling over third-party
-  testing frameworks.
-- For Go logging, prefer the standard library's `log/slog` package and named
-  constants for most fixed log message text; use structured attributes for values
-  that change.
-- By default, create a `logs/` directory in the repository root and write logs to
-  `logs/<repo-name>.log`, replacing `<repo-name>` with the repository name.
-- For Go HTTP services, prefer the standard library's `net/http` package and
-  middleware patterns.
-- Apply SOLID design principles pragmatically. Favor small, focused interfaces
-  and explicit dependency injection so dependencies are easy to mock in unit
-  tests; avoid unnecessary abstractions.
-- Explain significant tradeoffs and new production dependencies.
-- Never place credentials or secrets in source code.
-- Run formatting and relevant tests after code changes.
-- Report what changed, what was verified, and any unresolved issues.
-- Keep communication concise and practical.
-- Proceed autonomously with routine, reversible work within the requested scope.
-- .github should always exclude IDE folders, including, but not limited to, .idea (for JetBrains)
+This repository contains reusable coding preferences and skills, not a Go service.
+See [README.md](README.md) for installation, layout, and supported chat commands.
+Skills live in `skills/`, their supporting assets beside them, project templates
+in `templates/`, and standard-library Python validation in `scripts/`.
+
+Preserve existing conventions, customizations, licenses, and unrelated work.
+Keep changes focused and readable; never commit secrets. Keep IDE folders,
+including `.idea/`, out of `.github` content. Report changes, checks, and limits.
+
+[Development preferences](docs/development-preferences.md) are reusable defaults
+for target projects; apply only what fits their language and requirements.
+
+## Guidance responsibilities
+
+Root `AGENTS.md` holds concise project structure, commands, and conventions.
+In Spec Kit projects, `.specify/memory/constitution.md` holds durable principles
+and quality standards; link to it rather than duplicating it. Generated
+`.agents/skills/speckit-*` provide workflow commands: preserve them and customize
+through supported presets or project-local overrides. Separate custom workflows
+belong in `.agents/skills/<custom-skill>/SKILL.md`. Feature requirements, design,
+and work items belong in `specs/<feature>/spec.md`, `plan.md`, and `tasks.md`.
+
+Do not create agent or subagent definitions without a project need. Skills alone
+do not require `.codex/config.toml`; use it only for actual Codex configuration
+or Spec Kit event handlers. Inspect the existing integration before considering
+an agent-neutral `none` baseline. Keep harness-generated files separate from
+shared project guidance. This repository distributes setup guidance; it does not
+itself have an initialized Spec Kit project or a project constitution.
 
 ## Repository validation requirements
 
-- During project initialization or an explicit validation-setup request, create
-  repeatable local checks and CI for the project's actual contents. Extend
-  existing checks rather than adding a parallel validation system. For routine
-  changes, maintain and run the relevant checks without unrelated setup.
-- Validate skill metadata when skills exist, local Markdown links and anchors
-  when documentation exists, and shell syntax when shell scripts exist. For Go
-  modules, also check formatting, build, tests, and `go vet` using the supported
-  Go version and documented build tags. Do not invent a Go module for a
-  documentation-only repository.
-- Keep local and CI commands consistent and document their prerequisites,
-  coverage, and limitations in the README. Test meaningful failure cases when
-  adding or changing a validation script. Prefer existing tooling and avoid
-  dependencies when standard tools suffice.
-- On GitHub, run CI on pull requests to and pushes to the actual default branch.
-  Use stable check names, read-only workflow permissions, timeouts, full commit
-  SHA pins for external Actions, and checkout without persisted credentials.
-  Exclude IDE folders from `.github` content and preserve existing ignores.
-- Require successful CI checks before merging when remote configuration is part
-  of the authorized task. Register the real check name and provider after a
-  successful run, keep the branch up to date, and preserve existing protections.
-  Do not weaken checks or use an administrator bypass to make a merge succeed.
-- When configuring a public GitHub repository, enable secret scanning and push
-  protection where available, restrict Actions to reviewed dependencies, and
-  retain read-only token defaults with PR approval by workflows disabled. Keep
-  the allowed Actions policy aligned with workflow pins. Report plan, permission,
-  authentication, or feature limitations instead of claiming enforcement.
-- Creating local validation files does not itself authorize publishing, remote
-  settings changes, or merging. Follow the user's task scope. Preserve chosen
-  licenses and third-party notices; do not choose or replace a license as a side
-  effect of validation setup.
-- For this repository, run `python3 -m unittest discover -s scripts -p 'test_*.py'`
-  and `python3 scripts/check_repository.py` after changing instructions, skills,
-  documentation, scripts, or workflows. These checks validate structure and
-  syntax; they do not prove a skill's behavior or a remote setting is enforced.
+After changing instructions, skills, documentation, scripts, or workflows, run:
+
+```bash
+python3 -m unittest discover -s scripts -p 'test_*.py'
+python3 scripts/check_repository.py
+```
+
+Requires Python 3, Bash, and Git. These checks cover metadata, local Markdown
+links and anchors, shell syntax, and installer behavior; they do not prove skill
+behavior or remote policy enforcement. Keep local checks and CI consistent.
+See [validation standards](docs/development-preferences.md#repository-validation-requirements)
+for setup in target projects. Do not invent a Go module here or change remote
+settings as a side effect of local maintenance.

@@ -14,7 +14,7 @@ Use the current project unless the user supplies another target. A review is
 read-only; report findings and missing prerequisites without creating files,
 installing tools, or changing settings.
 
-Follow [Repository validation requirements](../../AGENTS.md#repository-validation-requirements).
+Follow [Repository validation requirements](../../docs/development-preferences.md#repository-validation-requirements).
 Resolve this skill's source links from its real directory, following symlinks.
 Its sibling repository scripts and templates must remain available together; if
 they are missing, report that and inspect the target's existing tooling first.

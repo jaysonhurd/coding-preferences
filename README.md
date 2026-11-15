@@ -1,8 +1,31 @@
 # coding-preferences
 
-Personal Codex instructions and reusable project templates. Keep general working
-preferences in the root `AGENTS.md` and project starting points under `templates/`.
-Reusable skill skeletons live under `skills/`.
+Reusable project guidance, optional workflows, and project templates. Root
+`AGENTS.md` describes maintenance of this repository; reusable personal defaults
+live in [development preferences](docs/development-preferences.md). Project
+starting points live under `templates/` and custom workflows under `skills/`.
+
+## Guidance responsibilities
+
+| Location in a target project | Responsibility |
+| --- | --- |
+| `AGENTS.md` | Concise structure, commands, and development conventions; link to the constitution where useful |
+| `.specify/memory/constitution.md` | Durable project principles and quality standards |
+| `.agents/skills/speckit-*` | Spec Kit-generated workflow commands; preserve managed files |
+| `.agents/skills/<custom-skill>/SKILL.md` | Optional separate reusable project workflows |
+| `specs/<feature>/spec.md`, `plan.md`, `tasks.md` | Feature requirements, design, and work items |
+
+Inspect existing Spec Kit integration, presets, overrides, and customizations before
+editing. Use supported presets or project-local overrides for managed commands.
+Consider the agent-neutral `none` integration when the team needs a shared baseline;
+keep harness-specific files separate. Follow the
+[official integration workflow](https://github.com/github/spec-kit/blob/main/docs/integrations/index.md)
+and the installed CLI's help. Do not silently migrate an existing integration.
+Agent/subagent definitions need an actual project use; skills alone do not require
+`.codex/config.toml`. That file is relevant for Codex settings or event handlers.
+
+This repository distributes guidance and setup workflows; it has no initialized
+Spec Kit scaffold. Installation does not create a constitution or feature documents.
 
 ## License
 
@@ -25,8 +48,8 @@ python3 scripts/check_repository.py
 
 The checker validates skill names and required metadata, local Markdown links
 and anchors, and shell-script syntax. It uses the standard library and requires
-no downloaded packages. External URLs are not checked. It does not replace a full
-YAML parser, shell linter, or behavioral testing of skills and installer scripts.
+no downloaded packages. External URLs are not checked. Installer tests also exercise preservation, repeat runs, and rejected destinations.
+Checks do not replace a full YAML parser, shell linter, or behavioral skill testing.
 
 The `Repository validation` GitHub Actions check runs for pull requests to `main`
 and pushes to `main`. It must pass before merging. Pull requests are restricted
@@ -49,8 +72,9 @@ and the workflow's pinned SHA before merging.
 
 ```text
 README.md                       Usage and maintenance instructions
-install.sh                      Install or refresh a local .codex directory
-AGENTS.md                       Personal defaults for Codex
+install.sh                      Install project-local custom skills safely
+AGENTS.md                       Concise repository maintenance guidance
+docs/development-preferences.md Reusable personal defaults
 skills/
   codex-help/
     SKILL.md                    Personal command help and selected-action routing
@@ -72,10 +96,10 @@ templates/
     AGENTS.md                   Starting point for Go project instructions
 ```
 
-## Install personal instructions
+## Install in a project
 
-Requires Bash, Git, and curl. Run from the directory containing the `.codex`
-directory you want to update (for example, run `cd ~` to update `~/.codex`):
+Requires Bash, Git, and standard Unix copy/link tools; downloading also requires
+curl and network access. Run from the target project root, which must exist:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o /tmp/coding-preferences-install.sh
@@ -83,22 +107,34 @@ bash /tmp/coding-preferences-install.sh
 rm /tmp/coding-preferences-install.sh
 ```
 
-The installer clones this repository into a temporary directory, copies its
-contents (including dotfiles, excluding `.git`) into `./.codex`, and removes the
-temporary clone on exit. Matching files are overwritten to refresh them; unrelated
-files, including files inside existing subdirectories, are preserved. Back up any
-local edits to repository-provided files before installing.
+Or run `bash /path/to/coding-preferences/install.sh /path/to/project` from a local
+checkout; this installs the checkout's contents without a download.
 
-If `./.codex` does not exist, the installer prints a warning and exits without
-cloning or creating it. Create it yourself with `mkdir .codex` if needed, then
-rerun the commands. The destination is relative to your current working directory;
-the installer does not use `CODEX_HOME`.
+The installer puts reusable sources and their references in
+`.agents/coding-preferences/` and links custom skills into `.agents/skills/`.
+It copies only skills, templates, docs, README, root guidance, and license;
+it does not copy Git metadata, CI, or harness configuration. It creates a small
+root `AGENTS.md` only if absent. Existing instructions, source bundles, skills
+(including broken symlinks), constitutions, feature documents, and generated
+`speckit-*` files are preserved. Destination directory symlinks are rejected.
+No `.codex` directory, config file, or agent definitions are created.
 
-## Update the installed copy
+Review the installed workflows and adapt root guidance to actual project commands.
+For an existing Spec Kit setup, request `$codex-help apply spec-kit guidance`
+to organize guidance using the responsibilities above; `build spec-kit` also reviews existing setup before filling
+missing pieces. The installer does not run an agent, merge constitution principles,
+initialize or migrate Spec Kit, change remote settings, or publish files.
 
-Rerun the installation commands from the same directory to refresh the installed
-contents. Files absent from the latest repository copy are left in place. Start
-a new Codex session after updating instructions so it loads the changes.
+## Update an installed copy
+
+Reruns preserve the installed source bundle and existing skill destinations. To
+refresh, review local edits, back up and move `.agents/coding-preferences/` outside
+that path, then rerun with the reviewed new source. Existing relative skill links
+will resolve to the replacement bundle. Review existing root instructions manually;
+the installer never overwrites them. Legacy `.codex` installs are left untouched;
+review any old global links before removing a legacy copy. Restart the agent session
+after changing skills. Installer behavior is covered by isolated local tests;
+these tests do not exercise a live network clone or prove agent behavior.
 
 ## Personal command help
 
@@ -127,13 +163,14 @@ for skill_file in "$preferences_root"/skills/*/SKILL.md; do
 done
 ```
 
-To use the copy installed by `install.sh` instead, set
-`preferences_root="$HOME/.codex"` before the loop. Link one source per skill;
+For project-local discovery, `install.sh` creates the links automatically. To
+link its bundle user-wide instead, set
+`preferences_root="/path/to/project/.agents/coding-preferences"` before the loop. Link one source per skill;
 existing destinations are preserved, including broken symlinks, so inspect any
 "Already exists" message if a skill is missing or points to an older copy.
 Keep the source directory in place: links use its absolute path. The help skill
 resolves references from that source, so the sibling skills, root `AGENTS.md`,
-and `templates/` must remain together.
+`docs/`, and `templates/` must remain together.
 
 Start a new Codex session if newly linked skills are not visible. You can also
 attach `skills/codex-help/SKILL.md` directly in chat and ask it to show your
@@ -202,7 +239,7 @@ the supported Go toolchain, and new instrumentation dependencies are explained.
 results without making code fixes.
 
 Repository validation is a reusable preference in
-[AGENTS.md](AGENTS.md#repository-validation-requirements), the Go project template,
+[development preferences](docs/development-preferences.md#repository-validation-requirements), the Go project template,
 and the Go and Spec Kit setup skills. The
 [repository-validation skill](skills/repository-validation/SKILL.md) creates or
 extends checks for the target's actual content: skill metadata, local Markdown
@@ -230,6 +267,8 @@ For an existing Spec Kit project, documentation and principles can be updated
 independently:
 
 ```text
+$codex-help review spec-kit guidance
+$codex-help apply spec-kit guidance
 $codex-help review spec-kit principles
 $codex-help apply spec-kit readme
 $codex-help apply spec-kit principles
@@ -300,7 +339,7 @@ a [README section](skills/spec-kit/assets/readme-section.md); upstream generates
 the required templates, scripts, and Codex skills. Initial setup requires network
 access, Python 3.11+, uv, and Codex.
 
-After installing this repository's skills into your Codex home, open a session in
+After installing this repository's project-local skills, open a session in
 the target project and request:
 
 ```text
@@ -324,7 +363,7 @@ specify init --here --integration codex --script sh
 Use the bundled README section for subsequent developer setup and the chat-based
 feature workflow. Keep shared `.specify/`, `.agents/skills/`, and `specs/` content
 in version control, preserving generated ignores for local state. This repository's
-`install.sh` installs personal preferences; it does not initialize Spec Kit in a
+`install.sh` installs project-local custom workflows; it does not initialize Spec Kit in a
 target project.
 
 ## How instructions interact
@@ -336,7 +375,7 @@ instructions take precedence when guidance conflicts. In each directory,
 take precedence over the installed personal defaults. See the
 [official OpenAI documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
-Use global instructions for personal defaults and a project's root `AGENTS.md`
+Use optional global instructions for personal defaults and a project's root `AGENTS.md`
 for its architecture, commands, and conventions. The root instructions also apply
 when working in this repository. The template is intended for copying into another
 project; its presence here does not apply Go-specific guidance to unrelated projects.

@@ -10,14 +10,18 @@ asking for help or adding the command does not execute it.
 Read the target's instructions, working-tree status, architecture, supported
 language versions, existing validation, and any Spec Kit infrastructure. Use the
 available coding-preferences source copy resolved from this skill's real directory.
-Read [personal defaults](../../AGENTS.md) and the current
+Read [personal defaults](../../docs/development-preferences.md) and the current
 [command catalog](COMMANDS.md), following each applicable action's source and
 compatibility rules. Preserve unrelated local work and established project
 requirements. Do not overwrite custom instructions or replace licenses.
 
 Apply these concerns as one coherent update:
 
-- Merge applicable personal defaults into the target's project instructions.
+- Organize guidance using [responsibility boundaries](../../AGENTS.md#guidance-responsibilities).
+  Keep project instructions concise; put durable Spec Kit principles in the
+  constitution and reference them without duplication. Preserve generated
+  `speckit-*` skills and existing integration settings.
+  Merge applicable personal defaults into the appropriate guidance.
   For Go projects, adapt [the Go template](../../templates/go-project/AGENTS.md)
   using inspected facts and preserve existing architecture and commands.
   For other projects, retain their language and tooling; omit Go-only rules.
@@ -32,7 +36,7 @@ Apply these concerns as one coherent update:
   document prerequisites, coverage, and limitations. Include IDE ignores while
   preserving existing exceptions and tracked files. Configure no remote settings
   unless the user separately authorizes that scope.
-- For existing Spec Kit projects, apply the catalog's `spec-kit readme` and
+- For existing Spec Kit projects, apply the catalog's `spec-kit guidance`, `spec-kit readme`, and
   `spec-kit principles` actions from their bundled sources. Preserve custom
   content and follow constitution amendment rules. Report missing infrastructure
   as skipped; do not initialize or upgrade Spec Kit.
