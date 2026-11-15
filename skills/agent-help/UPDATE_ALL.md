@@ -1,7 +1,7 @@
 # Update all preferences
 
-Use this workflow for `codex update all [TARGET]` or
-`$codex-help update all [TARGET]`. The target is the current project when omitted.
+Use this workflow for `agent update all [TARGET]` or
+`$agent-help update all [TARGET]`. The target is the current project when omitted.
 This invocation authorizes applying all applicable project preferences together;
 asking for help or adding the command does not execute it.
 
@@ -44,7 +44,7 @@ Apply these concerns as one coherent update:
 Use the current catalog so newly added project preference actions are considered
 on future runs. Help, review, verification, publishing, source-refresh, installer,
 and initialization commands are not additional project preferences to execute.
-In particular, this command does not run `build spec-kit`, `refresh codex please`,
+In particular, this command does not run `build spec-kit`, `refresh agent please`,
 `install.sh`, `create pr`, or `merge pr`. Separately requested actions retain their
 own scope and authorization.
 

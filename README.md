@@ -76,7 +76,7 @@ install.sh                      Install project-local custom skills safely
 AGENTS.md                       Concise repository maintenance guidance
 docs/development-preferences.md Reusable personal defaults
 skills/
-  codex-help/
+  agent-help/
     SKILL.md                    Personal command help and selected-action routing
     COMMANDS.md                 Command catalog and links to source guidance
     PULL_REQUESTS.md             Branch, commit, push, PR, and merge workflows
@@ -99,7 +99,7 @@ templates/
 ## Install in a project
 
 Requires Bash, Git, and standard Unix copy/link tools; downloading also requires
-curl and network access. Run from the target project root, which must exist:
+curl and network access. Run from the target project root, or pass a target path to the script:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o /tmp/coding-preferences-install.sh
@@ -108,7 +108,9 @@ rm /tmp/coding-preferences-install.sh
 ```
 
 Or run `bash /path/to/coding-preferences/install.sh /path/to/project` from a local
-checkout; this installs the checkout's contents without a download.
+checkout; this installs the checkout's contents without a download. The installer
+creates the target directory (including missing parents), `.agents/`, the source
+bundle, and `.agents/skills/` as needed. It rejects a target that is an existing file.
 
 The installer puts reusable sources and their references in
 `.agents/coding-preferences/` and links custom skills into `.agents/skills/`.
@@ -120,7 +122,7 @@ root `AGENTS.md` only if absent. Existing instructions, source bundles, skills
 No `.codex` directory, config file, or agent definitions are created.
 
 Review the installed workflows and adapt root guidance to actual project commands.
-For an existing Spec Kit setup, request `$codex-help apply spec-kit guidance`
+For an existing Spec Kit setup, request `$agent-help apply spec-kit guidance`
 to organize guidance using the responsibilities above; `build spec-kit` also reviews existing setup before filling
 missing pieces. The installer does not run an agent, merge constitution principles,
 initialize or migrate Spec Kit, change remote settings, or publish files.
@@ -136,10 +138,20 @@ review any old global links before removing a legacy copy. Restart the agent ses
 after changing skills. Installer behavior is covered by isolated local tests;
 these tests do not exercise a live network clone or prove agent behavior.
 
+## Command rename
+
+Personal commands now use `agent` naming: `$agent-help`, `agent help`,
+`agent update all`, and `refresh agent please`. Command topics and scope stay the
+same. Existing installations preserve their bundles, so use the documented source
+bundle refresh procedure to get the renamed `agent-help` skill. Review and remove
+obsolete help-skill links manually after checking their targets; the installer
+does not delete or rewrite existing skills. Codex product names, `.codex` paths,
+and Spec Kit's official `codex` integration key retain their actual names.
+
 ## Personal command help
 
-The [codex-help skill](skills/codex-help/SKILL.md) lists the workflows in
-[COMMANDS.md](skills/codex-help/COMMANDS.md), explains individual commands, and
+The [agent-help skill](skills/agent-help/SKILL.md) lists the workflows in
+[COMMANDS.md](skills/agent-help/COMMANDS.md), explains individual commands, and
 applies selected preferences to a project. These are natural-language chat
 requests, not Bash commands or registered slash commands.
 
@@ -173,28 +185,28 @@ resolves references from that source, so the sibling skills, root `AGENTS.md`,
 `docs/`, and `templates/` must remain together.
 
 Start a new Codex session if newly linked skills are not visible. You can also
-attach `skills/codex-help/SKILL.md` directly in chat and ask it to show your
+attach `skills/agent-help/SKILL.md` directly in chat and ask it to show your
 commands. In the Codex CLI, `/skills` opens the installed skill selector.
 
 ### Ask for help in chat
 
 ```text
-$codex-help
-$codex-help help go logging
+$agent-help
+$agent-help help go logging
 ```
 
 The first request lists all catalog commands and examples. The second explains
 one command. Neither changes files or runs the listed actions. Once the skill is
-discovered, `codex help` and `list my commands` also request the catalog.
+discovered, `agent help` and `list my commands` also request the catalog.
 
 ### Apply all preferences
 
 In the target project, request:
 
 ```text
-codex update all
-codex update all /path/to/project
-$codex-help update all
+agent update all
+agent update all /path/to/project
+$agent-help update all
 ```
 
 This applies all applicable guidance from the available coding-preferences copy:
@@ -205,7 +217,7 @@ unchanged items, skips, and blockers. Non-Go projects receive applicable general
 instructions and validation without Go scaffolding. Repeated runs should leave
 already compliant content unchanged.
 
-See [Update all preferences](skills/codex-help/UPDATE_ALL.md) for the workflow.
+See [Update all preferences](skills/agent-help/UPDATE_ALL.md) for the workflow.
 Like the other personal commands, this is a chat request. It does not download
 new preferences, initialize or upgrade Spec Kit, refresh the Effective Go source,
 change remote settings, or publish changes. Refresh an installed source copy
@@ -218,16 +230,16 @@ to report findings without edits. Supply a file, package, or project path to
 narrow the target; otherwise the current project is used.
 
 ```text
-$codex-help review go solid ./internal
-$codex-help apply go logging ./internal/service
-$codex-help apply go style and go docs ./internal/service
-$codex-help apply go gitignore
-$codex-help apply go http-tests ./internal/client
-$codex-help apply project instructions /path/to/project
-$codex-help verify go
-$codex-help apply repository validation
-$codex-help review repository validation
-$codex-help verify repository
+$agent-help review go solid ./internal
+$agent-help apply go logging ./internal/service
+$agent-help apply go style and go docs ./internal/service
+$agent-help apply go gitignore
+$agent-help apply go http-tests ./internal/client
+$agent-help apply project instructions /path/to/project
+$agent-help verify go
+$agent-help apply repository validation
+$agent-help review repository validation
+$agent-help verify repository
 ```
 
 Available Go topics include `style`, `solid`, `effective`, `docs`, `gitignore`,
@@ -253,7 +265,7 @@ instructions. `review repository validation` reports gaps without edits;
 enforcement, include that scope explicitly, for example:
 
 ```text
-$codex-help apply repository validation and configure GitHub enforcement for this repository
+$agent-help apply repository validation and configure GitHub enforcement for this repository
 ```
 
 Remote setup verifies passing required check names and providers, branch
@@ -267,17 +279,17 @@ For an existing Spec Kit project, documentation and principles can be updated
 independently:
 
 ```text
-$codex-help review spec-kit guidance
-$codex-help apply spec-kit guidance
-$codex-help review spec-kit principles
-$codex-help apply spec-kit readme
-$codex-help apply spec-kit principles
+$agent-help review spec-kit guidance
+$agent-help apply spec-kit guidance
+$agent-help review spec-kit principles
+$agent-help apply spec-kit readme
+$agent-help apply spec-kit principles
 ```
 
 These selected actions preserve existing customization and do not initialize or
-upgrade Spec Kit. For full setup, use `$codex-help build spec-kit` or
+upgrade Spec Kit. For full setup, use `$agent-help build spec-kit` or
 `$spec-kit build spec-kit`. To explicitly refresh only the local Effective Go
-article, use `$codex-help refresh codex please`. That refresh does not reinstall
+article, use `$agent-help refresh agent please`. That refresh does not reinstall
 personal preferences. The `initialize-go` skill remains a preference guide with
 unfinished full-scaffolding work; its à-la-carte commands do not imply that a
 complete Go project generator exists.
@@ -287,8 +299,8 @@ complete Go project generator exists.
 From the target repository, use either chat command:
 
 ```text
-$codex-help create pr
-$codex-help merge pr
+$agent-help create pr
+$agent-help merge pr
 ```
 
 Both commands create a branch, stage the current task's changes with `git add`,
@@ -301,13 +313,13 @@ it stops and reports blockers if they cannot be satisfied.
 These workflows require Git, authenticated GitHub access (for example, the `gh`
 CLI), and push/PR permissions; merging also requires merge permission. An optional
 repository path selects another target, for example
-`$codex-help create pr /path/to/project`. See
-[Pull-request workflows](skills/codex-help/PULL_REQUESTS.md) for scope, retry,
+`$agent-help create pr /path/to/project`. See
+[Pull-request workflows](skills/agent-help/PULL_REQUESTS.md) for scope, retry,
 and merge rules. Adding these commands or asking for help does not execute them.
 
 ### Add a personal command
 
-Add an entry to [COMMANDS.md](skills/codex-help/COMMANDS.md) with its request,
+Add an entry to [COMMANDS.md](skills/agent-help/COMMANDS.md) with its request,
 expected outcome, and source skill, template, or script. Keep the detailed rules
 in that source. The help list reads the catalog each time, so new entries do not
 need a second manually maintained help table. Update the help skill's routing

@@ -1,4 +1,4 @@
-# Personal Codex defaults
+# Personal development defaults
 
 - Prefer Go for new backend services unless project requirements suggest otherwise.
 - Write idiomatic Go following the guidance in Effective Go.

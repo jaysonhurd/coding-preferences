@@ -4,7 +4,7 @@ description: Scaffold for a reusable skill to initialize Go projects; not yet im
 ---
 
 ## General
-- Do not perform these refreshes on each codex request unless specifically asked to "refresh codex please".
+- Do not perform these refreshes on each agent request unless specifically asked to "refresh agent please".
 
 ### Effective Go
 
@@ -12,7 +12,7 @@ description: Scaffold for a reusable skill to initialize Go projects; not yet im
   the complete Effective Go article. Consult the relevant sections when
   initializing projects, designing Go code, or reviewing Go conventions.
 - Refresh the local copy from its recorded source only when explicitly asked to
-  "refresh codex please". Preserve all article sections, examples, links, and
+  "refresh agent please". Preserve all article sections, examples, links, and
   license notices, and update the retrieval date. Exclude site navigation and
   do not copy linked documents or recursively crawl documentation sites.
 - Effective Go is not actively updated. Check outdated guidance against current

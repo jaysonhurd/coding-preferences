@@ -2,7 +2,8 @@
 set -euo pipefail
 
 readonly repository_url='https://github.com/jaysonhurd/coding-preferences.git'
-target="$(cd "${1:-.}" && pwd)"
+mkdir -p -- "${1:-.}"
+target="$(cd -- "${1:-.}" && pwd)"
 readonly target
 script_directory="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly script_directory
@@ -21,7 +22,7 @@ trap 'rm -rf -- "$temporary_directory"' EXIT
 
 if [[ ! -e "$bundle" ]]; then
     source_directory="$script_directory"
-    if [[ ! -f "$source_directory/skills/codex-help/SKILL.md" ]]; then
+    if [[ ! -f "$source_directory/skills/agent-help/SKILL.md" ]]; then
         git clone --depth 1 "$repository_url" "$temporary_directory/repository"
         source_directory="$temporary_directory/repository"
     fi
@@ -75,5 +76,5 @@ GUIDANCE
 fi
 
 printf 'Installed project-local workflows in %s/.agents/skills\n' "$target"
-printf 'Review existing Spec Kit guidance with $codex-help apply spec-kit guidance.\n'
+printf 'Review existing Spec Kit guidance with $agent-help apply spec-kit guidance.\n'
 printf 'Existing constitution, generated Spec Kit skills, feature documents, and .codex files were preserved.\n'
