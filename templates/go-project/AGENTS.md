@@ -1,6 +1,6 @@
 # Go project instructions
 
-This is a starting point. Replace every `[TODO: ...]` placeholder and remove
+Adapt this file as `.agents/project.md` and link it from the root `AGENTS.md` for Go development. Replace every `[TODO: ...]` placeholder and remove
 inapplicable guidance before using it in a project. Placeholders are documentation,
 not commands to execute. Follow the project's established conventions.
 
@@ -115,7 +115,7 @@ Do not assume an example entry point or undocumented service exists.
 
 If this project uses Spec Kit, link to `.specify/memory/constitution.md` for durable
 principles and quality standards; remove duplicated principles from this template.
-Keep root instructions focused on project structure, commands, and conventions.
+Keep the root pointer concise and document project structure, commands, and conventions here.
 Preserve generated `.agents/skills/speckit-*`; customize through supported presets
 or project-local overrides. Separate custom workflows from generated skills and
 keep feature requirements, design, and tasks in `specs/<feature>/`. Skills alone

@@ -1,46 +1,32 @@
-# Repository guidance
+# Repository instructions
 
-This repository contains reusable coding preferences and skills, not a Go service.
-See [README.md](README.md) for installation, layout, and supported chat commands.
-Skills live in `skills/`, their supporting assets beside them, project templates
-in `templates/`, and standard-library Python validation in `scripts/`.
+- Read [repository guidance](.agents/REPOSITORY.md) before working on this repository. It describes the layout, editing conventions, and checks to run after changes.
+- Use the [file guide](.agents/FILES.md) when selecting a skill, reference, or template. It lists every file shipped in the preference bundle and explains when each applies.
 
-Preserve existing conventions, customizations, licenses, and unrelated work.
-Keep changes focused and readable; never commit secrets. Keep IDE folders,
-including `.idea/`, out of `.github` content. Report changes, checks, and limits.
+Any harness can follow these Markdown links directly.
 
-[Development preferences](docs/development-preferences.md) are reusable defaults
-for target projects; apply only what fits their language and requirements.
+## Installed project task map
 
-## Guidance responsibilities
+Paths below start at the target project root after running `install.sh`. Open the file for the task at hand. The installer links the four skill directories under `.agents/skills/` and copies the supporting documents into `.agents/coding-preferences/`.
 
-Root `AGENTS.md` holds concise project structure, commands, and conventions.
-In Spec Kit projects, `.specify/memory/constitution.md` holds durable principles
-and quality standards; link to it rather than duplicating it. Generated
-`.agents/skills/speckit-*` provide workflow commands: preserve them and customize
-through supported presets or project-local overrides. Separate custom workflows
-belong in `.agents/skills/<custom-skill>/SKILL.md`. Feature requirements, design,
-and work items belong in `specs/<feature>/spec.md`, `plan.md`, and `tasks.md`.
+| When working on… | Open this installed path |
+| --- | --- |
+| Go language, style, testing, logging, or other Go conventions | `.agents/skills/initialize-go/SKILL.md` |
+| Effective Go examples or the article’s license | `.agents/skills/initialize-go/EFFECTIVE_GO.md` |
+| Go scaffolding assets | `.agents/skills/initialize-go/assets/templates/.gitkeep` only marks a reserved directory. |
+| Help selecting or invoking a workflow | `.agents/skills/agent-help/SKILL.md` |
+| A named command or preference | `.agents/skills/agent-help/COMMANDS.md` for its syntax and scope |
+| Applying all applicable preferences | `.agents/skills/agent-help/UPDATE_ALL.md` |
+| Creating or merging a pull request | `.agents/skills/agent-help/PULL_REQUESTS.md` |
+| Setting up or reviewing repository checks and CI | `.agents/skills/repository-validation/SKILL.md` |
+| Setting up Spec Kit or reviewing existing Spec Kit guidance | `.agents/skills/spec-kit/SKILL.md` |
+| Writing or amending a Spec Kit constitution | `.agents/skills/spec-kit/assets/constitution-principles.md` |
+| Documenting the project's Spec Kit workflow | `.agents/skills/spec-kit/assets/readme-section.md` |
+| Choosing development defaults for a project | `.agents/coding-preferences/docs/development-preferences.md` |
+| Drafting project-specific Go instructions | `.agents/coding-preferences/templates/go-project/AGENTS.md` |
+| Installation, updates, or command examples | `.agents/coding-preferences/README.md` |
+| Checking terms for reuse or redistribution | `.agents/coding-preferences/LICENSE` |
+| Looking up any file in the installed bundle | `.agents/coding-preferences/.agents/FILES.md` |
+| Maintaining the preference sources | `.agents/coding-preferences/AGENTS.md` is the source entry point. Read `.agents/coding-preferences/.agents/REPOSITORY.md` for editing rules and checks. |
 
-Do not create agent or subagent definitions without a project need. Skills alone
-do not require agent configuration files; use them only for actual agent settings
-or Spec Kit event handlers. Inspect the existing integration before considering
-an agent-neutral `none` baseline. Keep harness-generated files separate from
-shared project guidance. This repository distributes setup guidance; it does not
-itself have an initialized Spec Kit project or a project constitution.
-
-## Repository validation requirements
-
-After changing instructions, skills, documentation, scripts, or workflows, run:
-
-```bash
-python3 -m unittest discover -s scripts -p 'test_*.py'
-python3 scripts/check_repository.py
-```
-
-Requires Python 3, Bash, and Git. These checks cover metadata, local Markdown
-links and anchors, shell syntax, and installer behavior; they do not prove skill
-behavior or remote policy enforcement. Keep local checks and CI consistent.
-See [validation standards](docs/development-preferences.md#repository-validation-requirements)
-for setup in target projects. Do not invent a Go module here or change remote
-settings as a side effect of local maintenance.
+If a project already has a skill at one of these paths, consult that skill's own instructions. The bundled version is available at the same relative path under `.agents/coding-preferences/skills/`. For project-specific instructions, follow the project's root guidance.
