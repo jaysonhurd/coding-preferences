@@ -34,7 +34,7 @@ complete missing setup rather than forcing a refresh or implementing a feature.
 ## Organize existing guidance
 
 Use the responsibility boundaries in
-[repository guidance](../../AGENTS.md#guidance-responsibilities). Review existing
+[repository guidance](../../.agents/REPOSITORY.md#guidance-responsibilities). Review existing
 Spec Kit management before editing: inspect integration status, installed version,
 presets, project overrides, and local modifications. Keep generated `speckit-*`
 skills intact; use supported presets or project-local overrides for customizations,

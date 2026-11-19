@@ -17,13 +17,13 @@ requirements. Do not overwrite custom instructions or replace licenses.
 
 Apply these concerns as one coherent update:
 
-- Organize guidance using [responsibility boundaries](../../AGENTS.md#guidance-responsibilities).
+- Organize guidance using [responsibility boundaries](../../.agents/REPOSITORY.md#guidance-responsibilities).
   Keep project instructions concise; put durable Spec Kit principles in the
   constitution and reference them without duplication. Preserve generated
   `speckit-*` skills and existing integration settings.
   Merge applicable personal defaults into the appropriate guidance.
   For Go projects, adapt [the Go template](../../templates/go-project/AGENTS.md)
-  using inspected facts and preserve existing architecture and commands.
+  in the project's linked guidance under `.agents/` using inspected facts. Preserve existing architecture and commands.
   For other projects, retain their language and tooling; omit Go-only rules.
 - Apply every applicable Go preference in the catalog, including style, SOLID,
   Effective Go, documentation, ignores, tests, HTTP client tests, errors, logging,

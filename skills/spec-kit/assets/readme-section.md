@@ -42,7 +42,7 @@ skills are not visible in the current session.
 ### Project layout
 
 ```text
-AGENTS.md                       Concise structure, commands, and conventions
+AGENTS.md                       Index of shared guidance and when to use it
 .specify/memory/constitution.md   Durable principles, quality standards, governance
 .specify/templates/              Templates for feature artifacts
 .specify/scripts/                Spec Kit workflow helpers

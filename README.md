@@ -1,11 +1,20 @@
 # coding-preferences
 
 Reusable project guidance, optional workflows, and project templates. Root
-`AGENTS.md` describes maintenance of this repository; reusable personal defaults
+[AGENTS.md](AGENTS.md) points to [repository guidance](.agents/REPOSITORY.md) and the [file guide](.agents/FILES.md); reusable personal defaults
 live in [development preferences](docs/development-preferences.md). Project
 starting points live under `templates/` and custom workflows under `skills/`.
 
 ## Install in a project
+
+Usage: `bash install.sh [--overwrite] [--] [PROJECT_DIR]`. The target defaults
+to the current directory. Use `--` before a target path that starts with a dash.
+
+| Option | Effect |
+| --- | --- |
+| No flags | Install missing files and skill links. Keep local edits. |
+| `--overwrite` | Replace managed files, including the project's root `AGENTS.md`, and refresh the installed skill links. |
+| `-h`, `--help` | Print usage and exit. |
 
 Requires Bash, Git, and standard Unix copy/link tools; downloading also requires
 curl and network access. Run from the target project root, or pass a target path to the script:
@@ -23,11 +32,9 @@ bundle, and `.agents/skills/` as needed. It rejects a target that is an existing
 
 The installer puts reusable sources and their references in
 `.agents/coding-preferences/` and links custom skills into `.agents/skills/`.
-It copies only skills, templates, docs, README, root guidance, and license;
+It copies skills, templates, docs, README, license, the root pointer, and its two linked guides;
 it does not copy Git metadata, CI, or harness configuration. It creates a small
-root `AGENTS.md` only if absent. Existing instructions, source bundles, skills
-(including broken symlinks), constitutions, feature documents, and generated
-`speckit-*` files are preserved. Destination directory symlinks are rejected.
+root `AGENTS.md` with a task-by-task map of installed paths and a link to the full file guide. By default it fills gaps in the bundle and preserves existing files and skill links. Destination directory symlinks are rejected.
 No agent-specific configuration or agent definitions are created.
 
 Review the installed workflows and adapt root guidance to actual project commands.
@@ -38,14 +45,23 @@ initialize or migrate Spec Kit, change remote settings, or publish files.
 
 ## Update an installed copy
 
-Reruns preserve the installed source bundle and existing skill destinations. To
-refresh, review local edits, back up and move `.agents/coding-preferences/` outside
-that path, then rerun with the reviewed new source. Existing relative skill links
-will resolve to the replacement bundle. Review existing root instructions manually;
-the installer never overwrites them. Legacy agent-specific installs are left untouched;
-review any old global links before removing a legacy copy. Restart the agent session
-after changing skills. Installer behavior is covered by isolated local tests;
-these tests do not exercise a live network clone or prove agent behavior.
+Rerun the installer without flags to add missing files and links while keeping local edits.
+To refresh every installer-managed file from a local checkout, run:
+
+```bash
+bash /path/to/coding-preferences/install.sh --overwrite /path/to/project
+```
+
+**Overwrite replaces the project's root `AGENTS.md`, the files shipped in the
+preference bundle, and the four installed skill links.** Save any edits you want
+to keep first. Extra project files and obsolete skills stay in place. If a real
+directory occupies a managed skill link, move it aside before overwriting. Links at
+file destinations are replaced directly. Directory symlinks in the bundle path
+are rejected.
+
+For the downloaded script, use `bash /tmp/coding-preferences-install.sh --overwrite`
+from the target root before removing the script. The standalone installer downloads
+the source on each run. Restart the agent session after changing skills.
 
 ## Install for user-wide discovery
 
@@ -84,7 +100,7 @@ commands. Use your agent's skill discovery mechanism to select installed skills.
 
 | Location in a target project | Responsibility |
 | --- | --- |
-| `AGENTS.md` | Concise structure, commands, and development conventions; link to the constitution where useful |
+| `AGENTS.md` | Pointers to shared project guidance under `.agents/`, with when to read each file |
 | `.specify/memory/constitution.md` | Durable project principles and quality standards |
 | `.agents/skills/speckit-*` | Spec Kit-generated workflow commands; preserve managed files |
 | `.agents/skills/<custom-skill>/SKILL.md` | Optional separate reusable project workflows |
@@ -148,7 +164,9 @@ and the workflow's pinned SHA before merging.
 ```text
 README.md                       Usage and maintenance instructions
 install.sh                      Install project-local custom skills safely
-AGENTS.md                       Concise repository maintenance guidance
+AGENTS.md                       Entry point for any harness
+.agents/REPOSITORY.md           Repository maintenance rules and checks
+.agents/FILES.md                File-by-file guide for the preference bundle
 docs/development-preferences.md Reusable personal defaults
 skills/
   agent-help/
@@ -175,10 +193,8 @@ templates/
 
 Personal commands now use `agent` naming: `$agent-help`, `agent help`,
 `agent update all`, and `refresh agent please`. Command topics and scope stay the
-same. Existing installations preserve their bundles, so use the documented source
-bundle refresh procedure to get the renamed `agent-help` skill. Review and remove
-obsolete help-skill links manually after checking their targets; the installer
-does not delete or rewrite existing skills. Agent integration identifiers and configuration paths must match the selected tool.
+same. Rerun the installer to add the renamed `agent-help` skill. Review obsolete
+help-skill links before removing them manually. Agent integration identifiers and configuration paths must match the selected tool.
 
 ## Personal command help
 
@@ -327,14 +343,15 @@ when adding a new action form beyond `help`, `apply`, `review`, `verify go`, or
 
 ## Use the Go project template
 
-From this repository's root, copy the template to an existing project's root:
+From this repository's root, copy the template into the project's shared guidance directory:
 
 ```sh
-cp -i templates/go-project/AGENTS.md /path/to/project/AGENTS.md
+mkdir -p /path/to/project/.agents
+cp -i templates/go-project/AGENTS.md /path/to/project/.agents/project.md
 ```
 
-Replace `/path/to/project` with the actual destination. If the project already has
-an `AGENTS.md`, merge the relevant sections instead of discarding its guidance.
+Replace `/path/to/project` with the actual destination. Add a link to `.agents/project.md` in the project’s root `AGENTS.md` and explain
+that it applies to Go development. Preserve any existing project instructions.
 Replace all `[TODO: ...]` placeholders, supply the actual local development
 commands, and remove sections that do not apply. The template does not create a Go
 module, source files, or development services. Copies are independent; review and
@@ -385,8 +402,8 @@ Check your agent's documentation for instruction discovery and precedence,
 including support for global defaults, project `AGENTS.md` files, and local
 overrides. Keep tool-specific configuration separate from shared guidance.
 
-Use optional global instructions for personal defaults and a project's root `AGENTS.md`
-for its architecture, commands, and conventions. The root instructions also apply
+Use optional global instructions for personal defaults and link project architecture, commands,
+and conventions from the project's root `AGENTS.md`. The root instructions also apply
 when working in this repository. The template is intended for copying into another
 project; its presence here does not apply Go-specific guidance to unrelated projects.
 
