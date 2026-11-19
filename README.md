@@ -7,28 +7,45 @@ starting points live under `templates/` and custom workflows under `skills/`.
 
 ## Install in a project
 
-Usage: `bash install.sh [--overwrite] [--] [PROJECT_DIR]`. The target defaults
-to the current directory. Use `--` before a target path that starts with a dash.
+Open a terminal **in the root of the repository you want to update**. Run
+`pwd` to check the directory. The final `.` on each `bash` line selects that
+directory as the installation target. Choose **one** of the two commands below.
+Both require Bash, Git, curl, standard Unix tools, and network access.
 
-| Option | Effect |
-| --- | --- |
-| No flags | Install missing files and skill links. Keep local edits. |
-| `--overwrite` | Replace managed files, including the project's root `AGENTS.md`, and refresh the installed skill links. |
-| `-h`, `--help` | Print usage and exit. |
+### Replace the project's existing AGENTS.md
 
-Requires Bash, Git, and standard Unix copy/link tools; downloading also requires
-curl and network access. Run from the target project root, or pass a target path to the script:
+Use this command to **update an existing `AGENTS.md`**. Save any local edits
+you want to keep first. The `--overwrite` flag on the **bash line** replaces
+the root instructions and refreshes the bundled files and four managed skill links.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o /tmp/coding-preferences-install.sh
-bash /tmp/coding-preferences-install.sh
-rm /tmp/coding-preferences-install.sh
+installer=$(mktemp) &&
+curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o "$installer" &&
+bash "$installer" --overwrite . &&
+rm "$installer"
 ```
 
-Or run `bash /path/to/coding-preferences/install.sh /path/to/project` from a local
-checkout; this installs the checkout's contents without a download. The installer
-creates the target directory (including missing parents), `.agents/`, the source
-bundle, and `.agents/skills/` as needed. It rejects a target that is an existing file.
+Verify the installed instructions from the same directory:
+
+```bash
+grep -Fx '## Installed project task map' AGENTS.md
+```
+
+The command should print the heading. If the installer printed
+`Preserving existing AGENTS.md.`, you ran in the default mode. Run the
+overwrite block above to replace that file.
+
+### Install missing files and keep an existing AGENTS.md
+
+Use this command for a first install or to fill in missing files and links.
+It creates `AGENTS.md` if absent and preserves it if it already exists.
+
+```bash
+installer=$(mktemp) &&
+curl -fsSL https://raw.githubusercontent.com/jaysonhurd/coding-preferences/main/install.sh -o "$installer" &&
+bash "$installer" . &&
+rm "$installer"
+```
 
 The installer puts reusable sources and their references in
 `.agents/coding-preferences/` and links custom skills into `.agents/skills/`.
@@ -45,23 +62,20 @@ initialize or migrate Spec Kit, change remote settings, or publish files.
 
 ## Update an installed copy
 
-Rerun the installer without flags to add missing files and links while keeping local edits.
-To refresh every installer-managed file from a local checkout, run:
+For a downloaded installer, follow [Replace the project's existing AGENTS.md](#replace-the-projects-existing-agentsmd).
+From a local coding-preferences checkout, use the same modes without a download.
+Replace `/path/to/project` with your target repository and choose one command:
 
-```bash
-bash /path/to/coding-preferences/install.sh --overwrite /path/to/project
-```
+| Desired result | Command from the coding-preferences checkout |
+| --- | --- |
+| Replace the target's `AGENTS.md` and refresh managed files and links | `bash install.sh --overwrite /path/to/project` |
+| Add missing files and links while keeping local edits | `bash install.sh /path/to/project` |
+| Show usage | `bash install.sh --help` |
 
-**Overwrite replaces the project's root `AGENTS.md`, the files shipped in the
-preference bundle, and the four installed skill links.** Save any edits you want
-to keep first. Extra project files and obsolete skills stay in place. If a real
-directory occupies a managed skill link, move it aside before overwriting. Links at
-file destinations are replaced directly. Directory symlinks in the bundle path
-are rejected.
-
-For the downloaded script, use `bash /tmp/coding-preferences-install.sh --overwrite`
-from the target root before removing the script. The standalone installer downloads
-the source on each run. Restart the agent session after changing skills.
+The target defaults to the current directory. Use `--` before a path that starts
+with a dash. Extra project files and obsolete skills stay in place. If a real
+directory occupies a managed skill link, move it aside before overwriting.
+Restart the agent session after changing skills.
 
 ## Install for user-wide discovery
 
